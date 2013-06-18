@@ -1,0 +1,71 @@
+{% extends 'introkick/base.html' %}
+
+{% load introkick_filters %}
+
+{% block nav %}
+
+	<h1>{{ current_user }} ({% if email %}{% ifequal email 'Enter your email (no spam, ever)' %}{{ db_email }}{% else %}{{ email }}{% endifequal %}{% endif %}{% ifequal email '' %}{{ db_email }}{% endifequal %})</h1>
+
+    <p><a href='{% url "group" %}'>Home</a></p>
+
+    <p><a href='{% url "logout" %}'>Logout</a></p>
+
+
+    <form action='{% url "invite" %}' method="post">
+        {% csrf_token %}
+        {{ invite_others }}
+        <!-- <input id="id_email" name="email" type="text" placeholder="name@example.com"> -->
+        <input class="btn btn-primary" type="submit" value="Invite others to IntroKick!" />
+    </form>
+
+
+    {% if email_form.errors %}
+        <p style="color: red;">
+            Please correct the error{{ email_form.errors|pluralize }} below.
+        </p>
+    {% endif %}
+
+
+    <form action='{% url "email" %}' method="post">
+        {% csrf_token %}
+        <div class="field">
+            <p>We need your e-mail because.....</p>
+            {{ email_form.email.errors }}
+            <label for="id_email">Update your e-mail:</label>
+            {{ email_form.email }}
+            <input class="btn" type="submit" value="Update email!" />
+        </div>
+    </form>
+
+
+
+    <p>Update your group: {% if current_group %}{% ifequal current_group 'Not part of a group - add one below!' %}Please select a group.{% else %}{{ current_group }}{% endifequal %}{% endif %}{% ifequal current_group '' %}Please select a group.{% endifequal %}</p>
+
+        
+
+    <form action='{% url "add" %}' method="post">
+        {% csrf_token %}
+        <div class="field">
+            {{ group_form.group.errors }}
+            <label for="id_group">Add or join a group:</label>
+            <input id="id_group" name="group" type="text" data-provide="typeahead" autocomplete="off" placeholder="Add or join a group" data-source='{{ group_typeahead }}' data-items="10" data-minLength="1" class="typeahead" >
+            <input class="btn" type="submit" value="Join group" />
+        </div>
+    </form>
+
+
+    <ul>
+        <p>My Groups:</p>
+        {% for group in all_groups %}
+            <li><a href='{% url "group_pk" group.id %}'>{{ group }}</a> | <a href='{% url "remove" group.id %}'>Leave this group</a></li>
+        {% endfor %}
+    </ul>
+
+
+    <ul>
+        <p>View by:</p>
+            <li><a href='/introkick/company/'>Company</a></li>
+            <li><a href='/introkick/industry/'>Industry</a></li>
+    </ul>
+
+{% endblock nav %}

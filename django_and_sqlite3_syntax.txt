@@ -1,0 +1,38 @@
+OAUTH
+https://github.com/synedra/python-oauth2
+https://github.com/mgile/django-linkedinauth
+https://github.com/shawnwall/django-linkedin-auth
+https://github.com/synedra/django-linkedin-simple
+
+
+DATABASE DESIGN PRINCIPLES
+http://www.dummies.com/how-to/content/exploring-database-design-tips.html
+http://www.dummies.com/how-to/content/knowing-just-enough-about-relational-databases.html
+
+
+Many-to-many relationships
+https://docs.djangoproject.com/en/dev/topics/db/examples/many_to_many/
+http://stackoverflow.com/questions/4912223/django-manytomanyfield
+https://docs.djangoproject.com/en/dev/topics/db/models/
+
+
+Model field reference: options and types
+https://docs.djangoproject.com/en/dev/ref/models/fields/
+
+
+COMMANDS
+drop table main.introkick_user;
+.tables
+pragma table_info(introkick_grid);
+
+
+COLUMN NAMES
+
+sqlite> create table my_table (a int, b TEXT);
+sqlite> .headers ON
+sqlite> .mode columns
+sqlite> pragma table_info(my_table);
+cid         name        type        notnull     dflt_value  pk
+----------  ----------  ----------  ----------  ----------  ----------
+0           a           int         0                       0
+1           b           TEXT        0                       0

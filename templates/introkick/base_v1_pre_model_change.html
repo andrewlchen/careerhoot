@@ -1,0 +1,77 @@
+{% load introkick_filters %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Introkick by CareerHoot | {% block meta_title %}Get awesome warm introductions.{% endblock %}</title>
+	
+	<script type='text/javascript' src='http://code.jquery.com/jquery-latest.min.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}/bootstrap/js/bootstrap.min.js'></script>
+    <link href="{{ STATIC_URL }}/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+		<script type="text/javascript">
+            // $(document).ready(function(){
+
+// $('.typeahead').typeahead();
+// $('#spinner').ajaxStart(function() {
+//     $(this).show();
+// }).ajaxComplete(function() {
+//     $(this).hide();
+// });
+
+            // });
+		</script>
+
+
+        <style type="text/css">
+            
+            /* This section resets the CSS to standardized values across browsers */
+            /* CSS reset START 
+            html, body, h1, h2, h3, h4, h5, h6, p, ol, ul, li, pre, code, address, variable, form, fieldset, blockquote {
+                padding: 0;
+                margin: 0;
+                font-size: 100%;
+                font-weight: normal;
+            } */
+            
+            #spinner {
+                display: none;
+            }
+            /* 
+            h1 {
+                font-size: 36px;
+                font-weight: bold;
+            } */
+            
+        </style>
+
+
+</head>
+    <body>
+
+        <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+        <div id="spinner"><img src="{{ STATIC_URL }}images/spinner.gif" ></div>
+        {% block nav %}
+        {% endblock nav %}
+
+        {% block main %}
+        {% endblock main %}
+
+        {% block doc_body_js %}
+        {% endblock doc_body_js %}
+
+{% block footer %}
+    </body>
+</html>
+{% endblock footer %}

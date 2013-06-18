@@ -1,0 +1,72 @@
+{% load introkick_filters %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>IntroKick by CareerHoot | {% block meta_title %}Get awesome warm intros to professionals you want to meet.{% endblock %}</title>
+	
+	<script type='text/javascript' src='http://code.jquery.com/jquery-latest.min.js'></script>
+    <script type="text/javascript" src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script> 
+    <script type='text/javascript' src='http://malsup.github.com/jquery.form.js'></script>
+    <script type='text/javascript' src='http://malsup.github.com/jquery.blockUI.js'></script>
+    <script type='text/javascript' src='https://dl.dropboxusercontent.com/s/hvbm6cntis7cfc0/jquery.noty.js'></script> 
+    <script type='text/javascript' src='//cdn.jsdelivr.net/noty/2.0.3/layouts/bottom.js'></script>
+    <script type="text/javascript" src='//cdn.jsdelivr.net/noty/2.0.3/themes/default.js'></script>
+    <script src="https://checkout.stripe.com/v2/checkout.js"></script>
+
+
+    <link href="https://dl.dropboxusercontent.com/s/h5wem3kj3wm4he1/bootstrap.min.css" rel="stylesheet">
+    <link href="https://dl.dropboxusercontent.com/s/5bgxrdt26g0ungp/introkick.css" rel="stylesheet">
+
+		<script type="text/javascript">
+            {% block js_head_script %}
+            {% endblock js_head_script %}
+
+		</script>
+
+        <script type="text/javascript">
+            $(window).load(function(){
+                $('#myModal-subscription').modal('show');
+            });
+        </script>
+
+        <style type="text/css">
+        {% block splash_image %}
+            body {
+                background-color:#F9F9F9;
+                background-image: url('https://dl.dropboxusercontent.com/s/s8g6ctit68ukdk6/headshot5-low-res-34.jpg');
+                background-size: cover;
+                background-repeat: no-repeat;
+                text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+            }
+        {% endblock splash_image %}
+        </style> 
+
+</head>
+    <body>
+
+        <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+        {% block nav %}
+        {% endblock nav %}
+
+        {% block main %}
+        {% endblock main %}
+
+        {% block doc_body_js %}
+        {% endblock doc_body_js %}
+
+{% block footer %}
+    </body>
+</html>
+{% endblock footer %}

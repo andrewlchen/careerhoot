@@ -1,0 +1,227 @@
+{% load introkick_filters %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Introkick by CareerHoot | {% block meta_title %}Get awesome warm introductions.{% endblock %}</title>
+	
+	<script type='text/javascript' src='http://code.jquery.com/jquery-latest.min.js'></script>
+    <script type='text/javascript' src='http://malsup.github.com/jquery.blockUI.js'></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+
+		<script type="text/javascript">
+        $(document).ready(function() {
+            
+            $('.errorlist').addClass("alert alert-error");
+
+            $("#spinner").hide();
+            
+            {% if current_user_companies %}
+                $('#company-pill').addClass('active').siblings().removeClass('active');
+            {% else %}
+                $('#industry-pill').addClass('active').siblings().removeClass('active');
+            {% endif %}
+
+
+            $('.nav-pills li a').click(function() {
+                $(this).parent().addClass('active').siblings().removeClass('active');
+            });
+            
+            $('.accordion-body').collapse('hide');
+
+
+            function range(start, stop, step){
+                if (typeof stop=='undefined'){
+                    // one param defined
+                    stop = start;
+                    start = 0;
+                };
+                if (typeof step=='undefined'){
+                    step = 1;
+                };
+                if ((step>0 && start>=stop) || (step<0 && start<=stop)){
+                    return [];
+                };
+                var result = [];
+
+                for (var i=start; step>0 ? i<stop : i>stop; i+=step){
+                    result.push(i);
+                };
+                return result;
+            };
+
+
+            $("a.accordion-toggle").click(function() {
+                var self = $(this); 
+                var data = escape(self.text()); 
+                var counter = $(this).data("counter"); 
+
+                if (self.hasClass('company')) {
+                    var getPrepend = 'company=';
+                } else if (self.hasClass('industry')) {
+                    var getPrepend = 'industry=';
+                }; 
+
+                // Don't refetch from DB if already done before. 
+                if ($("#accordion-heading"+counter).children().length < 2) {
+                
+                    $.ajax({
+                        type: "GET",
+                        url: '{% url "ajax" %}',
+                        dataType: 'json', 
+                        data: getPrepend + data,
+                        success: function(response) {
+
+                            htmlString = "<div id=\"collapse" + counter + "\" class=\"accordion-body collapse in\">" + "<div id=\"accordion-inner" + counter + "\"  class=\"accordion-inner\"><table class=\"table table-bordered table-hover\">"; 
+                            
+                            for (var i=0; i < response.length; i++) {
+
+                                var person = response[i]; 
+
+                                htmlString += "<tr><td><a href=\"" + person['public_url'] + "\"><img alt=\"profile-pic\" id=\"node_profile_picture\" class=\"img-rounded\" src=\""; 
+
+                                if (person['picture_url'] == 'No picture given') {
+                                    htmlString += "http://www.vdvl.nl/wp-content/uploads/2012/10/icon_no_photo_no_border_80x80.png"; 
+                                } else { 
+                                    htmlString += person['picture_url']; 
+                                }; 
+
+                                htmlString += "\" /></a></td><td><a href=\"" + person['public_url'] + "\">" + person['first_name'] + " " + person['last_name'] + "</a>, " + person['location'] + ", " + person['industry'] + "</td><td>" + person['title'] + "</td><td>" + person['company'] + "</td><td>Connected through: ";
+
+                                connectors = range(person['connectors'].length);
+
+                                for (var index in connectors) {
+                                    htmlString += "<a href=\"" + person['connector_urls'][index] + "\">" + person['connectors'][index] + "</a>";
+
+                                    if (index < person['connectors'].length-1) { 
+                                        htmlString += ", "; 
+                                    };
+                                }; 
+
+                                htmlString += "</td></tr>"; 
+
+                            };
+
+                            htmlString += "</table></div></div>"; 
+
+                            self.after(htmlString);
+
+                        }, 
+                        error: function(response) {
+                            // console.log(response)
+                            $(this).html('There was an error.');
+                        }
+
+                        // .error() 
+                        // .complete()
+                        // .success() 
+
+                    });
+
+                }; 
+
+            });
+
+        });
+
+		</script>
+
+        <script type="text/javascript">
+
+        $(document).ready(function() {
+            $.unblockUI();
+        }).click(function() {
+            $.blockUI({ message: 'Loading...', 
+                css: { 
+                    border: 'none', 
+                    padding: '15px', 
+                    backgroundColor: '#000', 
+                    '-webkit-border-radius': '10px', 
+                    '-moz-border-radius': '10px', 
+                    opacity: .5, 
+                    color: '#fff', 
+                    'font-size': '28px',
+                    font: 'helvetica', 
+                } 
+            }); 
+        }); 
+
+
+        // $(document).click(function() {
+        //     $('#spinner').show();
+        // }).ready(function() {
+        //     $('#spinner').hide();
+        // }); 
+
+
+
+// $('#spinner')
+//     .hide()  // hide it initially
+//     .ajaxStart(function() {
+//         $(this).show();
+//     })
+//     .ajaxStop(function() {
+//         $(this).hide();
+//     })
+// ;
+
+        </script>
+
+
+        <style type="text/css">
+            
+            /* This section resets the CSS to standardized values across browsers */
+            /* CSS reset START 
+            html, body, h1, h2, h3, h4, h5, h6, p, ol, ul, li, pre, code, address, variable, form, fieldset, blockquote {
+                padding: 0;
+                margin: 0;
+                font-size: 100%;
+                font-weight: normal;
+            } */
+            
+            #spinner-img {
+                position: fixed;
+                left: 50%;
+                top: 50%;
+                margin-left: -33px;
+                margin-top: -33px;
+                z-index: 2;                
+            }
+            /* 
+            h1 {
+                font-size: 36px;
+                font-weight: bold;
+            } */
+            
+        </style>
+
+
+</head>
+    <body>
+
+        <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+        {% block nav %}
+        {% endblock nav %}
+
+        {% block main %}
+        {% endblock main %}
+
+        {% block doc_body_js %}
+        {% endblock doc_body_js %}
+
+{% block footer %}
+    </body>
+</html>
+{% endblock footer %}

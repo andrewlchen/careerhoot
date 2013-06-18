@@ -1,0 +1,251 @@
+            #h1-title {
+                margin-top: 0.5em;
+                font-size: 72px;
+                text-align: center;
+            }
+
+            #h3-title {
+                font-weight: bold;
+                text-align: center;
+                margin-top: 2em;
+                margin-bottom: 3em;
+            }
+
+/*            #front-image {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+*/
+            #loginLinkedin {
+                text-align: center;
+                margin: 2em auto 4em auto;
+                clear: both;
+            }
+
+            .btn-xlarge {
+                padding: 18px 28px;
+                font-size: 32px;
+                line-height: normal;
+                -webkit-border-radius: 12px;
+                -moz-border-radius: 12px;
+                border-radius: 12px;
+                margin-right: auto;
+                margin-left: auto;
+            }
+
+            #bottom-half-container {
+                width: 960px;
+                margin: 0 auto;
+            }
+
+            #three-step-diagram {
+                list-style: none;
+                margin-top: 10em;
+            }
+
+            #three-step-diagram li {
+                line-height: 1.2em;
+                border: 5px solid rgb(51, 51, 51);
+                display: inline;
+                float: left;
+                width: 250px;
+                height: 255px;
+                margin: 20px 10px 40px 10px;
+                -webkit-border-radius: 12px;
+                -moz-border-radius: 12px;
+                border-radius: 12px;
+                font-weight: bold;
+                font-size: 20px;
+                text-align: center;
+                padding: 0 10px 10px 10px;
+                background-color:rgba(255, 255, 255, 0.3);
+                /*-webkit-box-shadow: 0px 10px 20px 0px #333;
+                -moz-box-shadow: 0px 10px 20px 0px #333;
+                box-shadow: 0px 10px 20px 0px #333;
+                background-color: #FAFAFA;*/
+            }
+
+/*            li#How-1 {
+                border-color: #070e83;
+            }
+
+            li#How-2 {
+                border-color: #cf3400;
+            }
+
+            li#How-3 {
+                border-color: #007806;
+            }
+*/
+
+            #icon-1, #icon-2, #icon-3 {
+                position: relative;
+            }
+
+            #icon-1 {
+                top: -40px;
+                left: 0px;
+            }
+
+            #icon-2 {
+                top: 0px;
+                left: 5px;
+            }
+
+            #icon-3 {
+                top: -20px;
+                left: 10px;
+            }
+
+            #How-1 span {
+                position: relative;
+                top: -50px;
+                font-size: 24px;
+            }
+
+            #How-2 span {
+                position: relative;
+                top: 40px;
+                font-size: 24px;
+            }
+
+            #How-3 span {
+                position: relative;
+                top: -40px;
+                font-size: 24px;
+            }
+
+            #three-step-diagram li #circle-1, #three-step-diagram li #circle-2, #three-step-diagram li #circle-3 {
+                display: inline-block;
+                line-height: 30px;
+                height: 30px; 
+                width: 30px; 
+                -webkit-border-radius: 18px;
+                -moz-border-radius: 18px;
+                border-radius: 18px;
+                padding: 0 3px 3px 3px;
+                /*-webkit-box-shadow: 0px 5px 10px 0px #333;
+                -moz-box-shadow: 0px 5px 10px 0px #333;
+                box-shadow: 0px 5px 10px 0px #333;*/
+                background-color: rgb(51, 51, 51);
+                color: #fff;
+                font-weight: bold;
+                font-size: 24px;
+                text-align: center;
+                top: -20px;
+                left: -138px;
+            }
+
+            #made-for {
+                clear: both;
+                list-style: none;
+                margin-bottom: 5em;
+            }
+
+            #made-for h2 {
+                text-align: center;
+            }
+
+            #made-for li {
+                float: left;
+                font-weight: bold;
+                margin: 1em 1em 2em 1em;
+                font-size: 16pt;
+            }
+
+            .tr_group_member:hover {
+                background-color: #EBEBEB;
+                border-color: #DDDDDD;
+                cursor: pointer;
+            }
+
+            .tr_group_member_clicked {
+                background-color: #DDDDDD;
+            }
+
+            #separator-container {
+                clear: both;
+                border-top: 5px solid rgb(51, 51, 51);
+                border-bottom: 5px solid rgb(51, 51, 51);
+                background-color:rgba(255, 255, 255, 0.3);
+            }
+
+            .grant_access_notification {
+                margin: 50px auto; 
+                width: 760px;
+            }
+
+            #about-us {
+                width: 50%;
+                float: left;
+                display: inline;
+                margin-left: 20px;
+            }
+
+            #social-widgets-div {
+                float: right;
+                width: 45%;
+                display: inline;
+                margin-left: 20px;
+            }
+
+            #social-widgets h3, #about-us h3 {
+                text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.75);
+            }
+
+            #about-us h3 {
+                text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+            }
+
+            #about-us p {
+                text-shadow: 0 0 0px rgba(255, 255, 255, 0.75);
+            }
+
+            #about-us-p a {
+                text-shadow: 0 0 1px rgba(0, 0, 0, 0.75);
+            }
+
+            #social-widgets li {
+                padding: 5px;
+                list-style-type: none;
+            }
+
+            #footer-credits {
+                clear: both;
+                border-top: 5px solid rgb(51, 51, 51);
+                border-bottom: 5px solid rgb(51, 51, 51);
+                background-color:rgba(255, 255, 255, 0.3);
+                margin-bottom: 30px;
+            }
+
+            .clearfix:after {
+                clear: both;
+                content: ".";
+                display: block;
+                height: 0;
+                visibility: hidden;
+            }
+
+            .clearfix {
+                display: inline-block;
+            }
+
+            .clearfix {
+                display: block;
+            }
+
+            #bold-this {
+                font-weight: bold;
+            }
+
+            #subscribe-paypal {
+                width: 30%;
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+            }
+
+            #paypal-text {
+                text-align: center;
+            }

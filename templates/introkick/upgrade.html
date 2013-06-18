@@ -1,0 +1,25 @@
+{% extends 'introkick/nav.html' %}
+
+{% load introkick_filters %}
+
+{% block upgrade %}
+
+
+<div class="span4 offset4">
+    <h1>{{ first_name }}, IntroKick needs your support</h1>
+    <div class="row">
+        <div class="span4">
+            <br />
+            <p>We hope you've enjoyed using IntroKick. Your free trial has ended. Now, we'd really like to ask for your support.</p> 
+            <p>If you find IntroKick useful, please consider subscribing. Our subscribers are the only way we keep the site running. And we keep the price low ($4.95 per month, payable through PayPal) to make it really affordable. So please support us if you can.</p>
+            <p>We really appreciate it and thank you.</p> 
+            <br />
+            <div id="subscribe-paypal">
+                {{ checkout_form }}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock upgrade %}

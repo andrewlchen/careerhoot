@@ -1,0 +1,105 @@
+{% load introkick_filters %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Introkick by CareerHoot | Your Connections</title>
+	
+	<script type='text/javascript' src='http://code.jquery.com/jquery-latest.min.js'></script>
+
+		<script type="text/javascript">
+			// $(document).ready(function() {
+			// 	var connections_dict = {{ connections }}
+			// 	$("#connections").html(JSON.stringify(connections_dict, null, '\t'))
+			// });
+		</script>
+
+</head>
+
+<body>
+
+	<h1>{{ user }} ({% if email %}{% ifequal email 'Enter your email (no spam, ever)' %}{{ db_email }}{% else %}{{ email }}{% endifequal %}{% endif %}{% ifequal email '' %}{{ db_email }}{% endifequal %})</h1>
+
+
+    <p>Update your e-mail address:</p>
+
+    {% if error_message_email %} <p><strong>{{ error_message_email }}</strong></p> {% endif %}
+
+    <form action="/introkick/company/" method="post">
+        {% csrf_token %}
+
+        <p>We need your e-mail because.....</p>
+        <input type="text" name="email" id="email" value="{{ email }}" />
+        <label for="email">Enter your email!</label><br />
+        <input type="submit" value="Update email!" />
+    </form>
+
+
+
+    <p>Update your group: {% if current_group %}{% ifequal current_group 'Not part of a group - add one below!' %}You are not part of a group yet.{% else %}{{ current_group }}{% endifequal %}{% endif %}{% ifequal current_group '' %}You are not part of a group yet.{% endifequal %}</p>
+
+    {% if error_message_group %} <p><strong>{{ error_message_group }}</strong></p> {% endif %}
+
+    <form action="/introkick/company/" method="post">
+        {% csrf_token %}
+
+        <input type="text" name="group" id="group" value="{{ group }}" />
+        <label for="group">Enter your group.</label><br />
+        <input type="submit" value="Enter group" />
+    </form>
+
+    <ul>
+        <p>My Groups:</p>
+        {% for group in all_groups %}
+            <li><a href='{% url "group_pk" group.id %}'>{{ group }}</a></li>
+        {% endfor %}
+    </ul>
+
+
+
+    <table>
+    	{% for i in grid_list_range %}
+    		<tr>
+    				<td>
+                        {% for company in grid_companies|lookup:i %}
+                            {{ company }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a href="{{ grid_public_url|lookup:i }}"><img alt="NODE FIRST LAST NAME" id="node_profile_picture" src="
+                            {% ifequal grid_picture_url|lookup:i 'No picture given' %} 
+                                {{ STATIC_URL }}images/icon_no_photo_no_border_80x80.png 
+                            {% else %}
+                                {{ grid_picture_url|lookup:i }}
+                            {% endifequal %}
+                            " /></a>
+                    </td>
+    				<td>
+                        <a href="{{ grid_public_url|lookup:i }}">{{ grid_firstName|lookup:i }} {{ grid_lastName|lookup:i }}</a>, 
+    					{{ grid_location|lookup:i }}, 
+    					{{ grid_industry|lookup:i }}
+    				</td>
+                    <td>
+                        <ul>
+                            {% for title in grid_titles|lookup:i %}
+                                <li>{{ title }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            {% for company in grid_companies|lookup:i %}
+                                <li>{{ company }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+    				<td>Connected through: {% for index in grid_connectors|lookup:i|range_len %} <a href="{{ grid_connector_urls|lookup:i|lookup:index }}">{{ grid_connectors|lookup:i|lookup:index }}</a>{% if not forloop.last %}, {% endif %} {% endfor %}
+                    </td>
+    		</tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>

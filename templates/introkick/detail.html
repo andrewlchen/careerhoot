@@ -1,0 +1,13 @@
+<h1>{{ user.user_mid }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+	<h1>Login to Introkick</h1>
+
+    <form action="/introkick/{{ user.email }}/company/" method="post">
+        {% csrf_token %}
+
+        <input type="text" name="email" id="email" value="Enter your email (no spam, ever)" />
+        <label for="choice{{ forloop.counter }}">Enter your email (no spam, ever)</label><br />
+        <input type="submit" value="submit" />
+    </form>

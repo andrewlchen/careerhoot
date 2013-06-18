@@ -1,0 +1,51 @@
+{% extends 'introkick/nav.html' %}
+
+{% load introkick_filters %}
+
+{% block main %}
+
+{% if user_notification %}
+    <div class="alert alert-block alert-error">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ user_notification }}
+    </div>
+{% endif %}
+
+{% if invite_others_to_group != '' %}
+{% endif %}
+
+<div class="accordion" id="accordion2">
+    {% if current_user_companies %}
+        {% regroup grid by company as companies %}
+            {% for company in companies %}
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle company" data-toggle="collapse" data-parent="#accordion2" href="#collapse{{forloop.counter}}">{{ company.grouper }}</a>
+                        <div id="collapse{{forloop.counter}}" class="accordion-body collapse in">
+                            <div id="accordion-inner{{forloop.counter}}" data-counter="{{forloop.counter}}" class="accordion-inner">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+    {% else %}
+        {% regroup grid by industry as industries %}
+            {% for industry in industries %}
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle industry" data-toggle="collapse" data-parent="#accordion2" href="#collapse{{forloop.counter}}">{{ industry.grouper }}</a>
+                        <div id="collapse{{forloop.counter}}" class="accordion-body collapse in">
+                            <div id="accordion-inner{{forloop.counter}}" data-counter="{{forloop.counter}}" class="accordion-inner" >
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+    {% endif %}
+</div>
+
+{% endblock main %}
+
+

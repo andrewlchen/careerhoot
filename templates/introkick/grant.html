@@ -1,0 +1,17 @@
+{% extends 'introkick/nav.html' %}
+
+{% load introkick_filters %}
+
+{% block grant_acess %}
+
+<h1 id="h1-title">IntroKick</h1>
+
+<div id="separator-container" class="grant_access_notification" class="span8 offset2">
+    <h2>{{ grant_access_notification }}</h2>
+</div>
+
+<form id="loginLinkedin" action='/introkick/login/' method="get">{% csrf_token %}
+    <input class="btn btn-primary btn-xlarge" type="submit" value="Show Me Awesome People" />
+</form>
+
+{% endblock grant_acess %}

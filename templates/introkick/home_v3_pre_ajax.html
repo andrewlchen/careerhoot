@@ -1,0 +1,97 @@
+{% extends 'introkick/nav.html' %}
+
+{% load introkick_filters %}
+
+{% block main %}
+
+{% if user_notification %}
+    <div class="alert alert-block alert-error">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ user_notification }}
+    </div>
+{% endif %}
+
+{% if invite_others_to_group != '' %}
+{% endif %}
+
+<div class="accordion" id="accordion2">
+    {% if current_user_companies %}
+        {% regroup grid by company as companies %}
+            {% for company in companies %}
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse{{forloop.counter}}">{{ company.grouper }}</a>
+                        <div id="collapse{{forloop.counter}}" class="accordion-body collapse in">
+                            <div class="accordion-inner">                        
+                                <table class="table table-bordered table-hover">
+                                    {% for member in company.list %}
+                                        <tr>
+                                            <td>
+                                                <a href="{{ member.public_url }}"><img alt="NODE FIRST LAST NAME" id="node_profile_picture" class="img-rounded" src="{% ifequal member.picture_url 'No picture given' %}{{STATIC_URL}}images/icon_no_photo_no_border_80x80.png {% else %}{{member.picture_url}}{% endifequal %}" /></a>
+                                            </td>
+                                            <td>
+                                                <a href="{{ member.public_url }}">{{ member.first_name }} {{ member.last_name }}</a>, {{ member.location }}, {{ member.industry }}
+                                            </td>
+                                            <td>
+                                                <ul>
+                                                    <li>{{ member.title }}</li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <ul>
+                                                    <li>{{ member.company }}</li>
+                                                </ul>
+                                            </td>
+                                            <td>Connected through: {% for index in member.connectors|range_len %} <a href="{{ member.connector_urls|lookup:index }}">{{ member.connectors|lookup:index }}</a>{% if not forloop.last %}, {% endif %} {% endfor %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+    {% else %}
+        {% regroup grid by industry as industries %}
+            {% for industry in industries %}
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse{{forloop.counter}}">{{ industry.grouper }}</a>
+                        <div id="collapse{{forloop.counter}}" class="accordion-body collapse in">
+                            <div class="accordion-inner">                        
+                                <table class="table table-bordered table-hover">
+                                    {% for member in industry.list %}
+                                        <tr>
+                                            <td>
+                                                <a href="{{ member.public_url }}"><img alt="NODE FIRST LAST NAME" id="node_profile_picture" class="img-rounded" src="{% ifequal member.picture_url 'No picture given' %}{{STATIC_URL}}images/icon_no_photo_no_border_80x80.png {% else %}{{member.picture_url}}{% endifequal %}" /></a>
+                                            </td>
+                                            <td>
+                                                <a href="{{ member.public_url }}">{{ member.first_name }} {{ member.last_name }}</a>, {{ member.location }}, {{ member.industry }}
+                                            </td>
+                                            <td>
+                                                <ul>
+                                                    <li>{{ member.title|join:", " }}</li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <ul>
+                                                    <li>{{ member.company|join:", " }}</li>
+                                                </ul>
+                                            </td>
+                                            <td>Connected through: {% for index in member.connectors|range_len %} <a href="{{ member.connector_urls|lookup:index }}">{{ member.connectors|lookup:index }}</a>{% if not forloop.last %}, {% endif %} {% endfor %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+    {% endif %}
+</div>
+
+{% endblock main %}
+
+

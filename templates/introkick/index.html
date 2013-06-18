@@ -1,0 +1,90 @@
+{% extends 'introkick/base.html' %}
+
+
+{% block main %}
+
+<h1 id="h1-title">IntroKick</h1>
+<h3 id="h3-title">The easiest way to find warm leads<br/>through people you already know</h3>
+
+<form id="loginLinkedin" action='/introkick/login/' method="get">{% csrf_token %}
+	<input class="btn btn-primary btn-xlarge" type="submit" value="Show Me Awesome People" />
+</form>
+
+
+<div id="bottom-half-container">
+	<ul id="three-step-diagram">
+		<li id="How-1"><span id="circle-1">1</span><img id="icon-1" src="{{ STATIC_URL }}images/in-icon.png" alt="login" width="" height="" /><br /><span>Sign in with LinkedIn</span><br /></li>
+		<li id="How-2"><span id="circle-2">2</span><img id="icon-2" src="{{ STATIC_URL }}images/group-icon.png" alt="" width="" height="" /><br /><span>Join a group</span><br /></li>
+		<li id="How-3"><span id="circle-3">3</span><img id="icon-3" src="{{ STATIC_URL }}images/search-icon.png" alt="" width="" height="" /><br /><span>Find awesome professionals</span></li>
+	</ul>
+
+	<div id="separator-container">
+		<ul id="made-for"><h2>Ideal For:</h2>
+			<li>Job seekers</li>
+			<li>Salespeople</li>
+			<li>Real estate professionals</li>
+			<li>Recruiters</li>
+			<li>...and you!</li>
+		</ul>
+	</div>
+
+
+	<div id="footer-credits" class="clearfix">
+		<div id="about-us">
+			<h3>Pricing</h3>
+			<p>IntroKick is <span id="bold-this">free for the first 14 days</span>, then just <span id="bold-this">$4.95 per month</span> to continue finding warm leads through people you already know!</p>
+			<h3>About</h3>
+			<p id="about-us-p">IntroKick is a <a href="http://careerhoot.com/">CareerHoot</a> product, developed by <a href="http://www.linkedin.com/in/andrewlchen">Andrew Chen</a>. See our <a href="#FAQ-modal" data-toggle="modal">FAQs and Terms of Service</a>.</p>
+		</div>
+
+
+<!-- Modal -->
+<div id="FAQ-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3 id="myModalLabel">IntroKick FAQs and Terms of Service</h3>
+	</div>
+	<div class="modal-body">
+		<ul>
+			<li><span id="bold-this">What is IntroKick?</span> IntroKick is the best tool to find warm leads through people you already know.</li>
+			<li><span id="bold-this">Who built it?</span> It was built by <a href="http://www.linkedin.com/in/andrewlchen">this guy</a>.</li>
+			<li><span id="bold-this">How does it work?</span> When you login with LinkedIn and join an IntroKick group, we'll show you the LinkedIn contacts of everyone in that group (besides you) that you're NOT connected to. You can sort and find potential leads by company or industry. Then, if you see someone you want to contact, you can ask for an intro from folks in that group who are connected to that person (which we highlight to you). So even if you don't know exactly who you're looking for -- you just know you want to meet people at company X or in industry Y -- we show you targeted lists of those people for you to quickly get introduced to them. Pure awesome.</li>
+			<li><span id="bold-this">How do you use my LinkedIn data?</span> We use your data only to show you potential leads. We never contact any of your connections, we don't solicit them for anything, and we don't spam you, ever. The only times we email you are when someone requests to join a group you're part of specifically from you, or when you invite someone to join a group. Other than that, you won't hear from us.</li>
+			<li><span id="bold-this">Why should I subscribe?</span> Well, the biggest reason (I hope) is that you find IntroKick useful. But we also rely solely on support from our users to keep the site running. No ads, no revenue from companies, nothing. Just you guys. So if you like what we're doing, please consider subscribing to help support us.</li>
+			<li><span id="bold-this">How much does it cost and how do I subscribe?</span> IntroKick is free for the first 14 days, then just $4.95 per month thereafter. To subscribe, simply login, then click the "Make Me Premium" link in the upper right.</li>
+			<li><span id="bold-this">Refunds?</span> Unfortunately we cannot provide refunds. Even if you forgot to cancel and it's only been one day into your new billing cycle. We do this because it's very manual to process refunds for purchases this low. After all, it's only $4.95 per month. So if you forgot to cancel and got charged an extra $4.95 this month, then just <a href="mailto:andrew@careerhoot.com">email me</a> and we'll cancel you immediately so you don't get charged again. But please be aware your last $4.95 charge cannot be refunded, even if you meant to cancel but simply forgot to. 
+			<li><span id="bold-this">Canceling your account.</span> Also, please note that your subscription expires immediately after you cancel -- again, even if it's only been one day into your new billing cycle. Again, the reason is because of the administration required to keep track of different "types" of subscribers, i.e., regular subscribers on the one hand, and subscribers who have canceled but technically haven't expired on the other.</li>
+			<li><span id="bold-this">Feedback, questions, comments?</span> Just <a href="mailto:andrew@careerhoot.com">email us</a>.</li>
+		</ul>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+	</div>
+</div>
+
+{% endblock main %}
+
+{% block doc_body_js %}
+		<div id="social-widgets-div" class="container">
+			<ul id="social-widgets"><h3>Like what we're doing?</h3>
+				<li>
+					<script src="//platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script><script type="IN/Share" data-counter="right"></script>
+				</li>
+				<li>
+					<div class="fb-like" data-href="https://www.facebook.com/CareerHoot" data-send="false" data-width="450" data-show-faces="true" data-font="arial"></div>
+				</li>
+				<li>
+					<a href="https://twitter.com/careerhoot" class="twitter-follow-button" data-show-count="false">Follow @careerhoot</a>
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+				</li>
+				<li style="clear: both;">
+					<a href="https://twitter.com/share" class="twitter-share-button" data-via="careerhoot" data-related="andrewlchen" data-hashtags="introkick">Tweet</a>
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+{% endblock doc_body_js %}
+
+</div>

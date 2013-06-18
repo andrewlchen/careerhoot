@@ -1,0 +1,12 @@
+<h1>{{ dummy_index }}</h1>
+
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<form action="/introkick/company/" method="post">
+{% csrf_token %}
+    <label for="username">This is the username label</label><br />
+    <input type="text" name="username" id="username_id" value="Username" />
+    <label for="username">This is the password label</label><br />
+    <input type="password" name="password" id="password_id" value="Password" />
+<input type="submit" value="Login" />
+</form>

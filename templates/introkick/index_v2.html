@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Introkick by CareerHoot</title>
+
+	<script type="text/javascript" src="http://platform.linkedin.com/in.js">
+		api_key: bf90vk5plazq
+		// onLoad: onLinkedInLoad
+		authorize: true
+	</script>
+	
+	<script type='text/javascript' src='http://code.jquery.com/jquery-latest.min.js'></script>
+
+	<script type="text/javascript">
+		function loadData() {
+			IN.API.Connections("me")
+				.fields(["id","pictureUrl","firstName","lastName","location:(name)","industry","threeCurrentPositions:(title,company)"])
+				.params({"count":30})
+				.result(function(result) {
+					// profHTML = "";
+					// for (var index in result.values) {
+					// 	profile = result.values[index]
+					// 	if (profile.pictureUrl) {
+					// 		profHTML += "<p><a href=\"" + profile.publicProfileUrl + "\">";
+					// 		profHTML += "<img class=img_border height=30 align=\"left\" src=\"" + profile.pictureUrl + "\"></a>";
+					// 	}
+					// }
+					// $("#connections").html(profHTML);
+					$("#connections").html(JSON.stringify(result))
+				});
+			}
+	</script>
+
+</head>
+
+<body>
+
+	<h1>{{ dummy_index }}</h1>
+
+		<div id="connections"></div>
+
+		<script type="in/Login" data-onAuth="loadData">Hello, <?js= firstName ?> <?js= lastName ?>.</script>
+
+<!-- 		{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+		<form action="/introkick/company/" method="post">
+			{% csrf_token %}
+    		<label for="username">This is the username label</label><br />
+    		<input type="text" name="username" id="username_id" value="Username" />
+    		<label for="username">This is the password label</label><br />
+    		<input type="password" name="password" id="password_id" value="Password" />
+			<input type="submit" value="Login" />
+		</form>
+ -->
+
+<!-- <script type="IN/Login"> 
+<form action="/register.html"> 
+<p>Your Name: <input type="text" name="name" value="<?js= firstName ?> <?js= lastName ?>" /></p>
+<p>Your Password: <input type="password" name="password" /></p>
+<input type="hidden" name="linkedin-id" value="<?js= id ?>" />
+<input type="submit" name="submit" value="Sign Up"/>
+</form>
+</script> -->
+
+
+</body>
+</html>

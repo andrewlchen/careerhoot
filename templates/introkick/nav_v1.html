@@ -1,0 +1,63 @@
+{% extends 'introkick/base.html' %}
+
+{% load introkick_filters %}
+
+{% block nav %}
+
+	<h1>{{ current_user }} ({% if email %}{% ifequal email 'Enter your email (no spam, ever)' %}{{ db_email }}{% else %}{{ email }}{% endifequal %}{% endif %}{% ifequal email '' %}{{ db_email }}{% endifequal %})</h1>
+
+    <p><a href='{% url "group" %}'>Home</a></p>
+
+    <p><a href='{% url "logout" %}'>Logout</a></p>
+
+
+    {% if form.errors %}
+        <p style="color: red;">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </p>
+    {% endif %}
+
+
+
+    <p>Update your e-mail address:</p>
+
+    {% if error_message_email %} <p><strong>{{ error_message_email }}</strong></p> {% endif %}
+
+    <form action='{% url "email" %}' method="post">
+        {% csrf_token %}
+
+        <p>We need your e-mail because.....</p>
+        <input type="text" name="email" id="email" value="{{ email }}" />
+        <label for="email">Enter your email!</label><br />
+        <input type="submit" value="Update email!" />
+    </form>
+
+
+
+    <p>Update your group: {% if current_group %}{% ifequal current_group 'Not part of a group - add one below!' %}You are not part of a group yet.{% else %}{{ current_group }}{% endifequal %}{% endif %}{% ifequal current_group '' %}You are not part of a group yet.{% endifequal %}</p>
+
+    {% if error_message_group %} <p><strong>{{ error_message_group }}</strong></p> {% endif %}
+
+    <form action='{% url "add" %}' method="post">
+        {% csrf_token %}
+
+        <input type="text" name="group" id="group" value="{{ group }}" />
+        <label for="group">Enter your group.</label><br />
+        <input type="submit" value="Enter group" />
+    </form>
+
+    <ul>
+        <p>My Groups:</p>
+        {% for group in all_groups %}
+            <li><a href='{% url "group_pk" group.id %}'>{{ group }}</a> | <a href='{% url "remove" group.id %}'>Leave this group</a></li>
+        {% endfor %}
+    </ul>
+
+
+    <ul>
+        <p>View by:</p>
+            <li><a href='/introkick/company/'>Company</a></li>
+            <li><a href='/introkick/industry/'>Industry</a></li>
+    </ul>
+
+{% endblock nav %}

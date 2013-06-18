@@ -1,0 +1,50 @@
+{% extends 'introkick/nav.html' %}
+
+{% load introkick_filters %}
+
+{% block main %}
+
+{{ user_notification }} 
+
+    <table>
+    	{% for i in grid_list_range %}
+            {% with grid|lookup:i as grid %}
+
+        		<tr>
+    				<td>
+                        {% ifequal sort_filter 'company' %} {{ grid.company }} {% endifequal %}
+                        {% ifequal sort_filter 'industry' %} {{ grid.industry }} {% endifequal %}
+                    </td>
+                    <td>
+                        <a href="{{ grid.public_url }}"><img alt="NODE FIRST LAST NAME" id="node_profile_picture" class="img-rounded" src="
+                            {% ifequal grid.picture_url 'No picture given' %} 
+                                {{ STATIC_URL }}images/icon_no_photo_no_border_80x80.png 
+                            {% else %}
+                                {{ grid.picture_url }}
+                            {% endifequal %}
+                            " /></a>
+                    </td>
+    				<td>
+                        <a href="{{ grid.public_url }}">{{ grid.first_name }} {{ grid.last_name }}</a>, 
+    					{{ grid.location }}, 
+    					{{ grid.industry }}
+    				</td>
+                    <td>
+                        <ul>
+                            <li>{{ grid.title }}</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>{{ grid.company }}</li>
+                        </ul>
+                    </td>
+    				<td>Connected through: {% for index in grid.connectors|range_len %} <a href="{{ grid.connector_urls|lookup:index }}">{{ grid.connectors|lookup:index }}</a>{% if not forloop.last %}, {% endif %} {% endfor %}
+                    </td>
+        		</tr>
+
+            {% endwith %}
+        {% endfor %}
+    </table>
+
+{% endblock main %}

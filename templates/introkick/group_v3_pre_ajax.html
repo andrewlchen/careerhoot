@@ -1,0 +1,69 @@
+{% extends 'introkick/nav.html' %}
+
+{% load introkick_filters %}
+
+{% block main %}
+
+{% if user_notification %}
+    <div class="alert alert-block alert-error">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ user_notification }}
+    </div>
+{% endif %}
+
+<br/>
+
+{% if group_member_form_notification %}
+    <div class="alert alert-block alert-error">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ group_member_form_notification }}
+    </div>
+{% endif %}
+
+{% if group_member_form %}
+    <form action='{% url "request_access" user.username %}' method="post">
+    {% csrf_token %}
+{% endif %}
+
+
+<table>
+    {% for member in group_member_list %}
+
+        <div class="tile_group_members field">
+            <tr>
+                <td>
+                    {% if group_member_form %}
+                    <!-- <label for="id_group_member">Group member:</label> -->
+                    <!-- {{ group_member_form.group_member }} -->
+                    <input id="id_group_member" name="group_member" value="{{ member.public_url }}" type="checkbox">
+                    {% endif %}
+
+                    <a href="{{ member.public_url }}"><img alt="NODE FIRST LAST NAME" id="picture_url" src="
+                        {% ifequal member.picture_url 'No picture given' %} 
+                            {{ STATIC_URL }}images/icon_no_photo_no_border_80x80.png 
+                        {% else %}
+                            {{ member.picture_url }}
+                        {% endifequal %}
+                        " /></a>
+                </td>
+                <td>
+                    <a href="{{ member.public_url }}">{{ member.first_name }} {{ member.last_name }}</a>
+                </td>
+            </tr>
+        </div>
+
+    {% endfor %}
+</table>
+
+
+{% if group_member_form %}
+<input class="btn" type="submit" value="Request invite from selected members" />
+</form>
+{% endif %}
+
+<br/>
+
+
+
+
+{% endblock main %}

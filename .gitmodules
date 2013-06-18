@@ -1,0 +1,3 @@
+[submodule "introkick"]
+	path = introkick
+	url = git@github.com:andrewlchen/careerhoot.git

@@ -1,0 +1,70 @@
+{% extends 'introkick/nav.html' %}
+
+{% load introkick_filters %}
+
+{% block main %}
+
+{{ user_notification }} 
+
+<br/>
+
+{{ group_member_form_notification }}
+
+{% if group_member_form %}
+    <!-- {{ group_member_form.errors }} -->
+    <form action='{% url "request_access" user.username %}' method="post">
+    {% csrf_token %}
+{% endif %}
+
+
+<table>
+    {% for i in group_member_list_range %}
+        {% with group_member_list|lookup:i as member %}
+
+            <div class="tile_group_members field">
+                <tr>
+                    <td>
+                        {% if group_member_form %}
+                        <!-- <label for="id_group_member">Group member:</label> -->
+                        <!-- {{ group_member_form.group_member }} -->
+                        <input id="id_group_member" name="group_member" value="{{ member.public_url }}" type="checkbox">
+                        {% endif %}
+
+                        <a href="{{ member.public_url }}"><img alt="NODE FIRST LAST NAME" id="picture_url" src="
+                            {% ifequal member.picture_url 'No picture given' %} 
+                                {{ STATIC_URL }}images/icon_no_photo_no_border_80x80.png 
+                            {% else %}
+                                {{ member.picture_url }}
+                            {% endifequal %}
+                            " /></a>
+                    </td>
+                    <td>
+                        <a href="{{ member.public_url }}">{{ member.first_name }} {{ member.last_name }}</a>
+                    </td>
+<!--                     <td>
+                        <a href='{% url "request_access" user.username %}'>Request access</a>
+                    </td> -->
+                </tr>
+            </div>
+
+        {% endwith %}
+    {% endfor %}
+</table>
+
+
+{% if group_member_form %}
+<input class="btn" type="submit" value="Request invite from selected members" />
+</form>
+{% endif %}
+
+<br/>
+<form action='{% url "invite_to_group" %}' method="post">
+    {% csrf_token %}
+    {{ invite_others_to_group }}
+    <!-- <input id="id_email" name="email" type="text" placeholder="name@example.com"> -->
+<input class="btn btn-primary" type="submit" value="Invite others to this group!" />
+</form>
+
+
+
+{% endblock main %}

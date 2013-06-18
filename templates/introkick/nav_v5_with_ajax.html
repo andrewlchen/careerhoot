@@ -1,0 +1,103 @@
+{% extends 'introkick/base.html' %}
+
+{% load introkick_filters %}
+
+{% block nav %}
+
+    <div class="navbar navbar-fixed-top navbar-inverse">
+      <div class="navbar-inner">
+        <a class="brand" href='{% url "group" %}'><b>IntroKick</b></a>
+        <ul class="nav pull-left">
+            <li><a href=''>{{ current_user }} ({% if email %}{% ifequal email 'Enter your email (no spam, ever)' %}{{ db_email }}{% else %}{{ email }}{% endifequal %}{% endif %}{% ifequal email '' %}{{ db_email }}{% endifequal %})</a></li>
+        </ul>
+        <ul class="nav pull-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">My Groups<b class="caret"></b></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                    {% for group in all_groups %}
+                        <li><a href='{% url "group_pk" group.id %}'>{{ group }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">Leave Groups<b class="caret"></b></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                    {% for group in all_groups %}
+                        {% ifnotequal group control_group %}
+                            <li><a href='{% url "remove" group.id %}'>Leave {{ group }}</a></li>
+                        {% endifnotequal %}
+                    {% endfor %}
+                </ul>
+            </li>
+            <li><a href="#myModal" role="button" class="" data-toggle="modal">Update My Email</a>
+            <!-- <li><a href='{% url "group" %}'>Home</a></li> -->
+            <li><a href='{% url "logout" %}'>Logout</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <br />
+    <br />
+    <br />
+
+    <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Update Your Email</h3>
+        </div>
+        <div class="modal-body">
+            <form action='{% url "email" %}' method="post">
+                {% csrf_token %}
+                <div class="field">
+                    <p>We'll notify you by email only when one of your peers requests to join one of your groups. We don't spam, ever.</p><br/>
+                    <div class="input-append">
+                    <input id="id_email" name="email" type="text" value="{{db_email}}" />
+                    <input class="btn btn-primary" type="submit" value="Update email!" />
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
+    </div>
+
+    <table class="table">
+        <tr>
+            <td>
+                <p><b>Currently viewing: {% if current_group %}{% ifequal current_group 'Not part of a group - add one below!' %}Please select a group.{% else %}{{ current_group }}{% endifequal %}{% endif %}{% ifequal current_group '' %}Please select a group.{% endifequal %}</b></p>
+                <p>Sort by:</p>
+                <ul class="nav nav-pills">
+                        <li><a href='/introkick/company/'>Company</a></li>
+                        <li><a href='/introkick/industry/'>Industry</a></li>
+                </ul>
+            </td>
+            <td>
+                <div class="pull-right">
+                    <form action='{% url "add" %}' method="post" >
+                        {% csrf_token %}
+                        <!-- {{ group_form.group.errors }} -->
+                        <div class="form-horizontal">
+                            <!-- <label for="id_group"><b>Add or join a group:</b></label> -->
+                            <input id="id_group" name="group" type="text" data-provide="typeahead" autocomplete="off" placeholder="Add or join a group" data-source='{{ typeahead_list }}' data-items="10" data-minLength="1" class="typeahead" >
+                            <input class="btn" type="submit" value="Go To Group" />
+                        </div>
+                    </form>
+
+                    {% ifnotequal current_group control_group %}
+                        <form action='{% url "invite_to_group" %}' method="post">
+                            {% csrf_token %}
+                            <!-- {{ invite_others_to_group.email.errors }} -->
+                            <div class="input-append">
+                                <label for="id_email"><b>See multiple colleagues' connections simultaneously <br/>by inviting them to join {{ current_group }}</b></label>
+                                <input id="id_email" name="email" type="text" placeholder="name@example.com" />
+                                <input class="btn btn-primary" type="submit" value="Invite Now" />
+                            </div>
+                        </form>
+                    {% endifnotequal %}
+                </div>
+            </td>
+        </tr>
+    </table>
+
+{% endblock nav %}

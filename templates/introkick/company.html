@@ -1,0 +1,113 @@
+{% load introkick_filters %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Introkick by CareerHoot | Your Connections</title>
+	
+	<script type='text/javascript' src='http://code.jquery.com/jquery-latest.min.js'></script>
+
+		<script type="text/javascript">
+			// $(document).ready(function() {
+			// 	var connections_dict = {{ connections }}
+			// 	$("#connections").html(JSON.stringify(connections_dict, null, '\t'))
+			// });
+		</script>
+
+</head>
+
+<body>
+
+	<h1>{{ user }} ({% if email %}{% ifequal email 'Enter your email (no spam, ever)' %}{{ db_email }}{% else %}{{ email }}{% endifequal %}{% endif %}{% ifequal email '' %}{{ db_email }}{% endifequal %})</h1>
+
+    <p><a href="{% url 'logout' %}">Logout</a></p>
+
+
+
+    <p>Update your e-mail address:</p>
+
+    {% if error_message_email %} <p><strong>{{ error_message_email }}</strong></p> {% endif %}
+
+    <form action="" method="post">
+        {% csrf_token %}
+
+        <p>We need your e-mail because.....</p>
+        <input type="text" name="email" id="email" value="{{ email }}" />
+        <label for="email">Enter your email!</label><br />
+        <input type="submit" value="Update email!" />
+    </form>
+
+
+
+    <p>Update your group: {% if current_group %}{% ifequal current_group 'Not part of a group - add one below!' %}You are not part of a group yet.{% else %}{{ current_group }}{% endifequal %}{% endif %}{% ifequal current_group '' %}You are not part of a group yet.{% endifequal %}</p>
+
+    {% if error_message_group %} <p><strong>{{ error_message_group }}</strong></p> {% endif %}
+
+    <form action="" method="post">
+        {% csrf_token %}
+
+        <input type="text" name="group" id="group" value="{{ group }}" />
+        <label for="group">Enter your group.</label><br />
+        <input type="submit" value="Enter group" />
+    </form>
+
+    <ul>
+        <p>My Groups:</p>
+        {% for group in all_groups %}
+            <li><a href='{% url "group_pk" group.id %}'>{{ group }}</a></li>
+        {% endfor %}
+    </ul>
+
+
+    <ul>
+        <p>View by:</p>
+            <li><a href='/introkick/company/'>Company</a></li>
+            <li><a href='/introkick/industry/'>Industry</a></li>
+    </ul>
+
+
+
+    <table>
+    	{% for i in grid_list_range %}
+            {% with grid|lookup:i as grid %}
+
+        		<tr>
+    				<td>
+                        {{ grid.company }}
+                    </td>
+                    <td>
+                        <a href="{{ grid.public_url }}"><img alt="NODE FIRST LAST NAME" id="node_profile_picture" src="
+                            {% ifequal grid.picture_url 'No picture given' %} 
+                                {{ STATIC_URL }}images/icon_no_photo_no_border_80x80.png 
+                            {% else %}
+                                {{ grid.picture_url }}
+                            {% endifequal %}
+                            " /></a>
+                    </td>
+    				<td>
+                        <a href="{{ grid.public_url }}">{{ grid.first_name }} {{ grid.last_name }}</a>, 
+    					{{ grid.location }}, 
+    					{{ grid.industry }}
+    				</td>
+                    <td>
+                        <ul>
+                            <li>{{ grid.title }}</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>{{ grid.company }}</li>
+                        </ul>
+                    </td>
+    				<td>Connected through: {% for index in grid.connectors|range_len %} <a href="{{ grid.connector_urls|lookup:index }}">{{ grid.connectors|lookup:index }}</a>{% if not forloop.last %}, {% endif %} {% endfor %}
+                    </td>
+        		</tr>
+
+            {% endwith %}
+        {% endfor %}
+    </table>
+
+</body>
+</html>

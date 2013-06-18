@@ -1,0 +1,55 @@
+{% extends 'introkick/nav.html' %}
+
+{% load introkick_filters %}
+
+{% block subscribe %}
+
+{% ifequal pdt_obj.st 'SUCCESS' %}
+
+
+<div class="span8 offset3">
+    <h1>Thanks for subscribing, {{ first_name }}!</h1>
+    <div class="row">
+        <div class="span6">
+            <p>Your payment of <span id="bold-this">{{ pdt_obj.mc_currency }} {{ pdt_obj.mc_gross }}</span> was accepted and a receipt will be emailed to you by PayPal. You can also log into your PayPal account at <a href="http://www.paypal.com">www.paypal.com</a> to view this transaction.
+            </p>
+
+            <p>
+                <div class="row">
+                    <div class="span2">PayPal Name:</div>
+                    <div class="span4">{{ pdt_obj.first_name }} {{ pdt_obj.last_name }}</div>
+                </div>
+
+                <div class="row">
+                    <div class="span2">PayPal Email:</div>
+                    <div class="span4">{{ pdt_obj.payer_email }}</div>
+                </div>
+
+                <div class="row">
+                    <div class="span2">Reference:</div>
+                    <div class="span2">{{ pdt_obj.txn_id }}</div>
+                </div>
+            </p>
+
+            <p>Your subscription will be billed monthly until you cancel.</p>
+            <p>Your next bill date is: <span id="bold-this">{{ subs_expiry }}</span>.</p>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% else %}
+<div class="span8 offset2">
+    <h1>Aw, snap!</h1>
+    <div class="row">
+        <div class="span6">
+            <p>For some reason, your transaction through PayPal failed. This could have happened because of a connection error on our part with PayPal, or insufficient funds in your account, or something else. Please re-try the transaction again.</p>
+        </div>
+    </div>
+</div>
+{% endifequal %}
+
+
+{% endblock subscribe %}

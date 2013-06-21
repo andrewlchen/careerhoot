@@ -14,7 +14,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'introkick_db,                      # Or path to database file if using sqlite3. '/users/anchen/desktop/hacking/django_projects/careerhoot/careerhoot.db'
+        'NAME': 'introkick_db',                      # Or path to database file if using sqlite3. '/users/anchen/desktop/hacking/django_projects/careerhoot/careerhoot.db'
         'USER': os.environ['USER'],                      # Not used with sqlite3.
         'PASSWORD': 'a468187amazon',                  # Not used with sqlite3.
         'HOST': os.environ['HOSTNAME'],                      # Set to empty string for localhost. Not used with sqlite3.

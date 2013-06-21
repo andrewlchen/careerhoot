@@ -14,10 +14,10 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'introkick_db',                      # Or path to database file if using sqlite3. '/users/anchen/desktop/hacking/django_projects/careerhoot/careerhoot.db'
-        'USER': os.environ['USER'],                      # Not used with sqlite3.
+        'NAME': 'ebdb',                      # Or path to database file if using sqlite3. '/users/anchen/desktop/hacking/django_projects/careerhoot/careerhoot.db'
+        'USER': 'ebroot',                      # Not used with sqlite3.
         'PASSWORD': 'a468187amazon',                  # Not used with sqlite3.
-        'HOST': os.environ['HOSTNAME'],                      # Set to empty string for localhost. Not used with sqlite3.
+        'HOST': 'aarxvxxsbulkq6.cifyauo54r3v.us-west-1.rds.amazonaws.com',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
     }
 }

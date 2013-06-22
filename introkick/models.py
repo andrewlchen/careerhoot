@@ -88,11 +88,11 @@ class UserProfile(models.Model):
 # 		return self.mid
 
 
-def test_ipn(sender, **kwargs):
-    ipn_obj = sender
-    # Undertake some action depending upon `ipn_obj`.
-    if ipn_obj.custom:
-    	print ipn_obj.custom
-        # Users.objects.update(paid=True)        
+# def test_ipn(sender, **kwargs):
+#     ipn_obj = sender
+#     # Undertake some action depending upon `ipn_obj`.
+#     if ipn_obj.custom:
+#     	print ipn_obj.custom
+#         # Users.objects.update(paid=True)        
 
-paypal_ipn_signal.connect(test_ipn)
+# paypal_ipn_signal.connect(test_ipn)

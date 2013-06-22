@@ -70,7 +70,7 @@ def index(request):
 	request.session['gid'] = request.GET.get('gid', False)
 
 	# captures URL and stores to session 
-	share_url = 'http://' + request.get_host() + '/'
+	share_url = 'http://' + request.get_host() + '/introkick/'
 	request.session['share_url'] = share_url
 
 	# renders login page 
@@ -98,7 +98,7 @@ def oauth_login(request):
 		current_server = "https://" + request.META['HTTP_HOST']
 	else: 
 		current_server = "http://" + request.META['HTTP_HOST']
-		oauth_callback = current_server + "/oauth_login/authenticate_user"
+		oauth_callback = current_server + "/introkick/oauth_login/authenticate_user"
 
 	# Step 2. Get a request token from LinkedIn.
 	resp, content = client.request("%s&oauth_callback=%s" % (request_token_url, oauth_callback), "GET")
@@ -138,7 +138,7 @@ def oauth_logout(request):
 
 	resp, content = client.request(invalidate_token_url, "GET")
 
-	return HttpResponseRedirect('/')
+	return HttpResponseRedirect('/introkick/')
 
 
 
@@ -474,7 +474,7 @@ def authenticate_user(request):
 			password=attributes['access_token']['oauth_token_secret'])
 		if user: 
 			login(request, user)
-			return HttpResponseRedirect('/sync/')
+			return HttpResponseRedirect('/introkick/sync/')
 		# else: 
 		# 	return render_to_response('introkick/index.html', 
 		# 		{
@@ -722,7 +722,7 @@ def sync(request):
 			kwargs={'group_pk' : get_request, }
 		))
 	else: 
-		return HttpResponseRedirect('/home/group/')
+		return HttpResponseRedirect('/introkick/home/group/')
 
 
 
@@ -901,14 +901,14 @@ def group(request, group_pk=None):
 	request.session['all_groups'] = all_groups
 	request.session['group_pk'] = group_pk
 
-	view_filter = request.session.get('view_filter', '/company/')	
+	view_filter = request.session.get('view_filter', '/introkick/company/')	
 
 	return HttpResponseRedirect(view_filter)
 
 
 
 @login_required
-def company(request, sort_filter=None, view_filter='/company/'): 
+def company(request, sort_filter=None, view_filter='/introkick/company/'): 
 
 	'''
 	Allows sorting based on company if selected, or default if initial log in. 
@@ -951,11 +951,11 @@ def company(request, sort_filter=None, view_filter='/company/'):
 	except KeyError: 
 		pass
 
-	return HttpResponseRedirect('/home')
+	return HttpResponseRedirect('/introkick/home')
 
 
 @login_required
-def industry(request, sort_filter=None, view_filter='/industry/'):
+def industry(request, sort_filter=None, view_filter='/introkick/industry/'):
 
 	'''
 	Allows sorting based on industry if selected. 
@@ -994,7 +994,7 @@ def industry(request, sort_filter=None, view_filter='/industry/'):
 	except KeyError: 
 		pass
 
-	return HttpResponseRedirect('/home')
+	return HttpResponseRedirect('/introkick/home')
 
 
 @login_required
@@ -1015,7 +1015,7 @@ def email(request):
 	'''
 
 	# Stores most recent path into session cookie, and tees up as the redirect path. 
-	request.session['last_path'] = request.session.get('path', '/home')
+	request.session['last_path'] = request.session.get('path', '/introkick/home')
 	redirect_path = request.session['last_path']
 
 	# Render email form template and include email address located in POST data if it exists 
@@ -1086,7 +1086,7 @@ def get_or_create_group(request, current_user):
 		group_members = show_this_group.user_set.all()
 		request.session['user_notification'] = 'You\'ve created the group: %s' % show_this_group
 		return show_this_group, group_members
-		return HttpResponseRedirect('/home/')
+		return HttpResponseRedirect('/introkick/home/')
 		
 
 
@@ -1280,7 +1280,7 @@ def remove(request, group_pk=None):
 		))
 	# else, re-render the same group's view in the homepage 
 	else: 
-		return HttpResponseRedirect('/home')
+		return HttpResponseRedirect('/introkick/home')
 
 
 
@@ -1324,7 +1324,7 @@ def request_access(request, requester=None):
 		request.session['group_member_form_notification'] = 'Pick someone to request access to the group.'
 		# group_member_form_notification = 'Pick someone to request access to the group.'
 		# return HttpResponse(group_member_form_notification, content_type="text/plain")
-		return HttpResponseRedirect('/home/group/add/')
+		return HttpResponseRedirect('/introkick/home/group/add/')
 
 	# build e-mail contents: requester's name, e-mail, mid, group she is seeking admission to + its group_pk, and selected person's e-mails
 	else: 
@@ -1341,7 +1341,7 @@ def request_access(request, requester=None):
 		requested_group_object = Group.objects.get(name=show_this_group)
 		requested_group_pk = requested_group_object.id
 
-		embed_url = 'http://' + request.get_host() + '/grant/' + str(requested_group_pk) + '/' + str(requester_username) + '/'
+		embed_url = 'http://' + request.get_host() + '/introkick/grant/' + str(requested_group_pk) + '/' + str(requester_username) + '/'
 
 		# Pull out everyone whom user selected from request.POST, initialize recipient_emails variable to store their e-mails
 		group_members = request.POST.getlist('group_member')
@@ -1368,7 +1368,7 @@ def request_access(request, requester=None):
 		# return HttpResponse(user_notification, content_type="text/plain")
 
 
-	return HttpResponseRedirect('/home')
+	return HttpResponseRedirect('/introkick/home')
 
 
 def grant_access(request, group_pk=None, requester=None):
@@ -1493,7 +1493,7 @@ def invite_to_group(request):
 	# content_type="text/plain"
 	# mimetype="application/json"
 	# return HttpResponse(user_notification, content_type="text/plain")
-	return HttpResponseRedirect('/home/')
+	return HttpResponseRedirect('/introkick/home/')
 
 
 
@@ -1505,7 +1505,7 @@ def invite(request):
 	Handles logic for inviting new users to the IntroKick service. 
 	'''
 
-	request.session['last_path'] = request.session.get('path', '/home')
+	request.session['last_path'] = request.session.get('path', '/introkick/home')
 	redirect_path = request.session['last_path']
 
 	invite_others = InviteOthers(request.POST)
@@ -1537,7 +1537,7 @@ def invite(request):
 
 		else: 
 			# send email to invtee 
-			sign_in_url = 'http://' + request.get_host() + '/'
+			sign_in_url = 'http://' + request.get_host() + '/introkick/'
 			subject = 'Invitation to IntroKick'
 			body = '%s %s (%s) has invited you to join IntroKick, a micro-network to make professional introductions easier! Click here (%s) to sign in with LinkedIn and start kicking off intros!' % (user.first_name, user.last_name, user.email, sign_in_url)
 			from_address = 'IntroKick Notifications <archimedes@careerhoot.com>'

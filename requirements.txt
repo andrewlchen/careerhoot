@@ -9,6 +9,7 @@ distribute==0.6.28
 dj-database-url==0.2.1
 django-bootstrap-toolkit==2.10.6
 django-paypal-express-checkout==0.5.1
+django-paypal
 docutils==0.9.1
 elementtree==1.2.7-20070827-preview
 gunicorn==0.17.4

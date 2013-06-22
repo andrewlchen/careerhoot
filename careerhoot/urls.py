@@ -24,7 +24,7 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
 
-	url(r'^/', include('introkick.urls')),
+	url(r'^', include('introkick.urls')),
     url(r'^admin/', include(admin.site.urls)),
 	# url(r'^introkick/logout/$', views.logout, {'next_page': '/introkick'}, name='logout'),
 )

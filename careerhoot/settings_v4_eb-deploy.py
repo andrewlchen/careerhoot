@@ -1,4 +1,5 @@
 # Django settings for careerhoot project.
+import os 
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -12,12 +13,12 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'introkick_db',                      # Or path to database file if using sqlite3. '/users/anchen/desktop/hacking/django_projects/careerhoot/careerhoot.db'
-        'USER': 'andrewchen',                      # Not used with sqlite3.
-        'PASSWORD': 'ar468187postgres',                  # Not used with sqlite3.
-        'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '5432',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'ebdb',                      # Or path to database file if using sqlite3. '/users/anchen/desktop/hacking/django_projects/careerhoot/careerhoot.db'
+        'USER': 'ebroot',                      # Not used with sqlite3.
+        'PASSWORD': 'a468187amazon',                  # Not used with sqlite3.
+        'HOST': 'aarxvxxsbulkq6.cifyauo54r3v.us-west-1.rds.amazonaws.com',                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -192,11 +193,3 @@ PAYPAL_IDENTITY_TOKEN = 'UpqzZPeNTNePSt6BtbV4QqaygQDcWK4c9QXUtTKjYKhBf9FK0CD4SIq
 # EMAIL_HOST_USER = ''
 # EMAIL_HOST_PASSWORD = ''
 # EMAIL_PORT = 25 #465 for SSL, 25 for localhost default, 587 for TLS
-
-
-# Parse database configuration from $DATABASE_URL
-import dj_database_url
-DATABASES['default'] =  dj_database_url.config()
-
-# Honor the 'X-Forwarded-Proto' header for request.is_secure()
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

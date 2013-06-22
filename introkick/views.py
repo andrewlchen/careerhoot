@@ -16,7 +16,7 @@ from dateutil.relativedelta import relativedelta
 import re
 import urlparse 
 # import pprint
-from MySQLdb import IntegrityError
+# from MySQLdb import IntegrityError
 from operator import itemgetter
 import string
 import random
@@ -267,7 +267,7 @@ def login_get_user_gid_notification(request, user):
 			user.groups.add(target_group)
 			mid.invite_count -= 1
 			mid.save()
-			request.session['user_notification'] = 'Congratulations on joining the group %s' % target_group
+			request.session['user_notification'] = 'Congratulations on joining the group "%s"!' % target_group
 		else: 
 			request.session['user_notification'] = 'We\'re sorry, but %s %s was not invited to the group %s' % (user.first_name, user.last_name, Group.objects.get(id=get_request))
 			del request.session['gid']
@@ -937,7 +937,7 @@ def company(request, sort_filter=None, view_filter='/introkick/company/'):
 		also be empty if current_user_companies is empty)
 		'''
 		if not current_user_companies: 
-			current_user_companies = ['So sad. You\'re the only member in this group. Invite people (using the email box above) to see who they know!']
+			current_user_companies = ['So sad. You\'re the only one in this group. Invite people to see who they know! (Use the email box above.) ']
 
 		request.session['current_user_companies'] = current_user_companies
 
@@ -1149,7 +1149,11 @@ def add(request):
 	group_form = request.session.get('group_form', '')
 
 	# This doesn't need to be captured into the session because the JoinGroup form will only be used in this view, and no others 
-	group_member_form = request.session.get('group_member_form', False)
+	group_member_form = True
+	group_members = request.session.get('group_members', False)
+	if group_members != False: 
+		if current_user in group_members:
+			group_member_form = False
 
 	# refresh the current path into the session, because if e-mail is updated while in this view, you need to re-render this view, not the home view 
 	request.session['path'] = request.path
@@ -1161,12 +1165,8 @@ def add(request):
 	except KeyError: 
 		pass
 	
-	# extract and delete user_notification session cookie 
-	user_notification = request.session.get('user_notification', '')
-	try: 
-		del request.session['user_notification']
-	except KeyError: 
-		pass
+	onload_modal = request.session.get('onload_modal', '')
+	checkout_form = subscribe_paypal(request, current_user.username)
 
 	# implement search typeahead
 	typeahead_list = group_typeahead(request)
@@ -1199,6 +1199,7 @@ def add(request):
 		# request.session['group_member_form'] = group_member_form
 
 		# If current_user is one of the group members, then do not show checkboxes or request to join e-mail option 
+		request.session['group_members'] = group_members
 		if current_user in group_members:
 			group_member_form = False
 
@@ -1214,6 +1215,13 @@ def add(request):
 
 	# 	group_member_form_notification = group_member_form_notification
 	
+
+	# extract and delete user_notification session cookie 
+	user_notification = request.session.get('user_notification', '')
+	try: 
+		del request.session['user_notification']
+	except KeyError: 
+		pass
 
 
 	return render_to_response('introkick/group.html', 
@@ -1236,6 +1244,8 @@ def add(request):
 		'invite_others_to_group' : invite_others_to_group,
 		'invite_others' : invite_others,
 		'typeahead_list' : typeahead_list,
+		'onload_modal' : onload_modal,
+		'checkout_form' : checkout_form.sandbox(),
 		}, 
 		context_instance=RequestContext(request))
 
@@ -1319,6 +1329,10 @@ def request_access(request, requester=None):
 	# build e-mail contents: requester's name, e-mail, mid, group she is seeking admission to + its group_pk, and selected person's e-mails
 	else: 
 		show_this_group = request.session['show_this_group']
+		try: 
+			del request.session['show_this_group']
+		except KeyError: 
+			pass
 
 		requester = User.objects.get(username=requester)
 		requester_name = '%s %s' % (requester.first_name, requester.last_name)
@@ -1421,7 +1435,7 @@ def invite_to_group(request):
 		try: 
 			# see if that email is already associated with an existing user 
 			target_user = User.objects.get(email=cd['email'])
-			body = '%s, \n\n%s %s (%s) has invited you to join the group "%s" on IntroKick, the easiest tool for getting warm introductions to the professionals you want to meet -- from people you already know. \n\nClick here (%s) to login in directly with LinkedIn (no registration required) and check out your IntroKick connections in the %s group. \n\nWe hope you enjoy using IntroKick! \n\n\n-The IntroKick Team' % (target_user.first_name, user.first_name, user.last_name, user.email, target_group.name, sign_in_url, target_group.name)
+			body = '%s, \n\n%s %s (%s) invited you to join the group "%s" on IntroKick, the easiest tool for getting warm intros to the professionals you want to meet -- from people you already know. \n\nClick here (%s) to login in directly with LinkedIn (no registration required) and check out your IntroKick connections in the %s group. \n\nEnjoy using IntroKick! \n\n\n-The IntroKick Team' % (target_user.first_name, user.first_name, user.last_name, user.email, target_group.name, sign_in_url, target_group.name)
 		except User.DoesNotExist:
 			# if not, then save it as the user's new email address 
 			target_user = None
@@ -1777,26 +1791,16 @@ def home(request):
 	request.session['path'] = request.path
 	
 	current_user_grid = request.session['current_user_grid']
-	try: 
-		current_user_companies = request.session['current_user_companies']
-	except KeyError: 
-		current_user_companies = False
-
-	try: 
-		current_user_industries = request.session['current_user_industries']
-	except KeyError: 
-		current_user_industries = False
+	current_user_companies = request.session.get('current_user_companies', False)
+	current_user_industries = request.session.get('current_user_industries', False)
 
 	# grid_list_range = request.session['grid_list_range']
-	show_this_group = request.session['show_this_group']
+	show_this_group = request.session.get('show_this_group', '%s %s\'s 1st degree connections' % (first_name, last_name))
 	all_groups = request.session['all_groups']
 	control_group = all_groups.get(name='%s %s\'s 1st degree connections' % (current_user.first_name, current_user.last_name))
 	group_pk = request.session['group_pk']
 	sort_filter = request.session['sort_filter']
-	try: 
-		invite_others = request.session['invite_others']
-	except KeyError: 
-		invite_others = InviteOthers(request.POST)
+	invite_others = request.session.get('invite_others', InviteOthers(request.POST))
 
 	# only show the viral email invite form if you are viewing a group that's not your default group 
 	try: 

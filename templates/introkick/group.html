@@ -34,7 +34,7 @@
             <tr id="tr_group_member{{forloop.counter}}" class="tr_group_member" data-counter="{{forloop.counter}}">
                 <td>
                     {% if group_member_form %}
-                    <input id="id_group_member{{forloop.counter}}" name="group_member" value="{{ member.public_url }}" type="checkbox">
+                    <input id="id_group_member{{forloop.counter}}" name="group_member" value="{{ member.public_url }}" type="hidden">
                     {% endif %}
 
                     <a href="{{ member.public_url }}" onclick="javascript: void(0)"><img alt="NODE FIRST LAST NAME" class="picture_url" id="picture_url{{forloop.counter}}" src="

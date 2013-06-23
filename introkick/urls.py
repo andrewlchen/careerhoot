@@ -44,8 +44,8 @@ urlpatterns = patterns('introkick.views',
     url(r'^grant/(?P<group_pk>\d+)/(?P<requester>[^/]+)/$', 'grant_access', name='grant_access'),
     url(r'^groupinvite/$', 'invite_to_group', name='invite_to_group'), 
     url(r'^invite/$', 'invite', name='invite'), 
-    url(r'^(?P<sort_filter>company)/$', 'company', {'view_filter' : '/introkick/company/'}), # 
-    url(r'^(?P<sort_filter>industry)/$', 'industry', {'view_filter' : '/introkick/industry/'}), # 
+    url(r'^(?P<sort_filter>company)/$', 'company', {'view_filter' : '/company/'}), # 
+    url(r'^(?P<sort_filter>industry)/$', 'industry', {'view_filter' : '/industry/'}), # 
     url(r'^logout/$', 'oauth_logout', name='logout'),
     # url(r'^email/$', 'email'),
 )

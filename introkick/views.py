@@ -1393,7 +1393,7 @@ def grant_access(request, group_pk=None, requester=None):
 			requester_mid.invite_count -= 1
 			requester_mid.save()
 
-			sign_in_url = 'http://' + request.get_host() + '/introkick?gid=' + str(group_pk)
+			sign_in_url = 'http://' + request.get_host() + '?gid=' + str(group_pk)
 
 			# send confirmation email to grantee 
 			subject = 'Your request to join the group "%s" has been approved' % requested_group_object
@@ -1430,7 +1430,7 @@ def invite_to_group(request):
 
 		cd = invite_others_to_group.cleaned_data
 		user = request.user
-		sign_in_url = 'http://' + request.get_host() + '/introkick?gid=' + str(target_group.id)
+		sign_in_url = 'http://' + request.get_host() + '?gid=' + str(target_group.id)
 
 		try: 
 			# see if that email is already associated with an existing user 
@@ -1702,7 +1702,7 @@ def subscribe_paypal(request, user_id):
         "item_name": "IntroKick: 1-DAY recurring subscription",
         # "notify_url": "http://localhost:8000/introkick/paypal/ipn",
         # "return_url": "http://localhost:8000/introkick/paypal/pdt",
-        "cancel_return": "http://localhost:8000/introkick/home/group/",
+        "cancel_return": 'http://' + request.get_host() + '/home/group/',
 
     }
 

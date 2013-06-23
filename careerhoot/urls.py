@@ -2,6 +2,7 @@
 
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.conf import settings
 # from django.contrib.auth import views
 
 # from introkick.views import twitter_login, twitter_logout, twitter_authenticated

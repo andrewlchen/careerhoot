@@ -1,7 +1,6 @@
 # Django settings for careerhoot project.
 
 import os
-import dj_database_url
 import socket
 
 DEBUG = True
@@ -31,7 +30,7 @@ else:
     # DEBUG = TEMPLATE_DEBUG = False
     # Parse database configuration from $DATABASE_URL
     import dj_database_url
-    DATABASES['default'] =  dj_database_url.config(default='postgres://andrewchen:ar468187postgres@localhost/introkick_db')
+    DATABASES['default'] =  dj_database_url.config()
 
     # Honor the 'X-Forwarded-Proto' header for request.is_secure()
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

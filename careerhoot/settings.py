@@ -2,7 +2,6 @@
 
 import os
 import socket
-import dj_database_url
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -14,27 +13,17 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-
-# DEBUG = TEMPLATE_DEBUG = False
-# Parse database configuration from $DATABASE_URL
-DATABASES['default'] =  dj_database_url.config()
-
-# Honor the 'X-Forwarded-Proto' header for request.is_secure()
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-
-if socket.gethostname() == 'anchen-mn1':
-    # DEBUG = TEMPLATE_DEBUG = True
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-            'NAME': 'introkick_db',                      # Or path to database file if using sqlite3. '/users/anchen/desktop/hacking/django_projects/careerhoot/careerhoot.db'
-            'USER': 'andrewchen',                      # Not used with sqlite3.
-            'PASSWORD': 'ar468187postgres',                  # Not used with sqlite3.
-            'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
-            'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'introkick_db',                      # Or path to database file if using sqlite3. '/users/anchen/desktop/hacking/django_projects/careerhoot/careerhoot.db'
+        'USER': 'andrewchen',                      # Not used with sqlite3.
+        'PASSWORD': 'ar468187postgres',                  # Not used with sqlite3.
+        'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
+}
+
 
 
 # Local time zone for this installation. Choices can be found here:

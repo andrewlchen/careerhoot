@@ -2,7 +2,7 @@
 
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-import from careerhoot import settings
+from careerhoot import settings
 import socket
 
 # from django.contrib.auth import views

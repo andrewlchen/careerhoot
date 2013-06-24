@@ -75,7 +75,7 @@ MEDIA_URL = ''
 # Example: "/home/media/media.lawrence.com/static/"
 
 
-SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+SITE_ROOT = os.path.dirname(os.path.realpath('careerhoot/settings.py'))
 UP_ROOT = os.path.abspath(os.path.join(SITE_ROOT, '..'))
 
 

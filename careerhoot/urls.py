@@ -2,7 +2,7 @@
 
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from careerhoot import settings
+from django.conf import settings
 import socket
 
 # from django.contrib.auth import views
@@ -33,7 +33,6 @@ urlpatterns = patterns('',
 )
 
 
-if socket.gethostname() != 'anchen-mn1':
-    urlpatterns += patterns('',
-        (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
-    )
+urlpatterns += patterns('',
+    (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
+)

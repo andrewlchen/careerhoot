@@ -75,7 +75,7 @@ MEDIA_URL = ''
 # Example: "/home/media/media.lawrence.com/static/"
 
 
-SITE_ROOT = os.path.dirname(os.path.realpath('careerhoot/settings.py'))
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 UP_ROOT = os.path.abspath(os.path.join(SITE_ROOT, '..'))
 
 
@@ -83,8 +83,8 @@ STATIC_ROOT = UP_ROOT + '/introkick/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = '/introkick/static/'
-# ADMIN_MEDIA_PREFIX = '/static/admin/'
+STATIC_URL = 'http://www.introkick.com/introkick/static/'
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 
 # Additional locations of static files
@@ -99,7 +99,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.

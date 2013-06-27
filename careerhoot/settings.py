@@ -150,6 +150,7 @@ INSTALLED_APPS = (
     # 'bootstrap_toolkit',
     'paypal.standard.pdt',
     'paypal.standard.ipn',
+    "gunicorn",
 )
 
 # A sample logging configuration. The only tangible logging
@@ -200,7 +201,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'archimedes@careerhoot.com'
-EMAIL_HOST_PASSWORD = '@rchim3d3s'
+EMAIL_HOST_PASSWORD = '@ndr3wch3n'
 EMAIL_PORT = 587 # 465 for SSL, 25 for localhost default, 587 for TLS
 EMAIL_SUBJECT_PREFIX = '[Django Alert]'
 SEND_BROKEN_LINK_EMAILS = True

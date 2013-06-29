@@ -83,8 +83,8 @@ STATIC_ROOT = UP_ROOT + '/introkick/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = 'http://introkick.com/static/'
-ADMIN_MEDIA_PREFIX = 'http://introkick.com/static/admin/'
+STATIC_URL = '/static/'
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 
 # Additional locations of static files

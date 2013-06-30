@@ -79,12 +79,12 @@ SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 UP_ROOT = os.path.abspath(os.path.join(SITE_ROOT, '..'))
 
 
-STATIC_ROOT = '/home/ubuntu/careerhoot/introkick/static/'
+STATIC_ROOT = '/tmp/pip-build-root/django/django/contrib/admin/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = 'http://introkick.com/static/'
-ADMIN_MEDIA_PREFIX = 'http://introkick.com/static/admin/'
+STATIC_URL = '/static/'
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 
 # Additional locations of static files

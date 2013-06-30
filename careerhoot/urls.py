@@ -33,5 +33,5 @@ urlpatterns = patterns('',
 
 
 urlpatterns += patterns('',
-    (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/tmp/pip-build-root/django/django/contrib/admin/static/'}),
+    (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
 )

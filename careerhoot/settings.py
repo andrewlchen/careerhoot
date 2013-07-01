@@ -84,8 +84,8 @@ STATIC_ROOT = MEDIA_ROOT
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = '/static/'
-ADMIN_MEDIA_PREFIX = '/static/admin/'
+STATIC_URL = '/introkick/static/'
+ADMIN_MEDIA_PREFIX = '/introkick/static/admin/'
 
 
 # Additional locations of static files

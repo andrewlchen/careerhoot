@@ -79,7 +79,7 @@ SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 UP_ROOT = os.path.abspath(os.path.join(SITE_ROOT, '..'))
 
 
-STATIC_ROOT = '/home/ubuntu/careerhoot/introkick/'
+STATIC_ROOT = ''
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -100,6 +100,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    UP_ROOT + '/introkick/static/',
 )
 
 # Make this unique, and don't share it with anybody.

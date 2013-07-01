@@ -83,7 +83,7 @@ STATIC_ROOT = '/home/ubuntu/careerhoot/introkick/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = 'http://introkick.com/static/'
+STATIC_URL = '/static/'
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 

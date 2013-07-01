@@ -79,7 +79,7 @@ SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 UP_ROOT = os.path.abspath(os.path.join(SITE_ROOT, '..'))
 
 
-STATIC_ROOT = UP_ROOT + '/introkick/static/'
+STATIC_ROOT = UP_ROOT + '/introkick/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -92,7 +92,6 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/tmp/pip-build-root/django/django/contrib/admin/static/', 
 )
 
 # List of finder classes that know how to find static files in

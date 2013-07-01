@@ -85,7 +85,7 @@ STATIC_ROOT = MEDIA_ROOT
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
-ADMIN_MEDIA_PREFIX = '/tmp/pip-build-root/django/django/contrib/admin/'
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 
 # Additional locations of static files

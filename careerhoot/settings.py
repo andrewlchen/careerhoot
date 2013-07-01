@@ -79,12 +79,12 @@ SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 UP_ROOT = os.path.abspath(os.path.join(SITE_ROOT, '..'))
 
 
-STATIC_ROOT = UP_ROOT + '/introkick/'
+STATIC_ROOT = UP_ROOT + '/introkick/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = 'http://introkick.com/static/'
-ADMIN_MEDIA_PREFIX = '/admin/'
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 
 # Additional locations of static files

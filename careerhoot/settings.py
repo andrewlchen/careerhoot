@@ -101,6 +101,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.DefaultStorageFinder',
     UP_ROOT + '/introkick/static/',
+    '/tmp/pip-build-root/django/django/contrib/admin/static/', 
 )
 
 # Make this unique, and don't share it with anybody.

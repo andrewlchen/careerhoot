@@ -1737,6 +1737,10 @@ def flip_first_entitlements(request, pdt_obj):
 
 	DO I GET THE SAME SIGNAL BACK FOR RECURRING CHARGE? NEED TO ASSOCIATE BUYER ID 
 	WITH USERNAME
+
+	CHANGE flip entitlements view to use CUSTOM field of PDT object, not 
+	current_user - since user may bounce out of browser before being 
+	redirected - grab CUSTOM field from PDT table, then lookup on User table
 	'''
 
 	if pdt_obj.st == 'SUCCESS': 

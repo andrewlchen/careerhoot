@@ -3,11 +3,7 @@
 import os
 import socket
 
-if socket.gethostname() == 'anchen-mn1':
-    DEBUG = True
-else:
-    DEBUG = False
-
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -17,6 +13,8 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+# if socket.gethostname() == 'anchen-mn1':
+    # DEBUG = TEMPLATE_DEBUG = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -27,6 +25,17 @@ DATABASES = {
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
+
+# else:
+#     # DEBUG = TEMPLATE_DEBUG = False
+#     # Parse database configuration from $DATABASE_URL
+#     import dj_database_url
+#     DATABASES = {}
+#     DATABASES['default'] =  dj_database_url.config()
+
+#     # Honor the 'X-Forwarded-Proto' header for request.is_secure()
+#     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name

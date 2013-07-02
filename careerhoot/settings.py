@@ -3,12 +3,12 @@
 import os
 import socket
 
-if socket.gethostname() == 'anchen-mn1':
-    DEBUG = True
-else:
-    DEBUG = False
+# if socket.gethostname() == 'anchen-mn1':
+#     DEBUG = True
+# else:
+#     DEBUG = False
 
-# DEBUG = True
+DEBUG = True
 
 TEMPLATE_DEBUG = DEBUG
 

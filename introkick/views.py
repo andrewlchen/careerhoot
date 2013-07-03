@@ -1745,7 +1745,7 @@ def flip_first_entitlements(request, pdt_obj):
 
 	if pdt_obj.st == 'Completed': 
 
-		current_user = UserProfile.objects.get(user=User.objects.get(username=pdt_obj.cm))
+		current_user = UserProfile.objects.get(user=User.objects.get(username=pdt_obj.custom))
 		
 		if current_user.paid == False: 
 			current_user.paid = True

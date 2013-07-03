@@ -230,9 +230,11 @@
     <div class="navbar navbar-fixed-top navbar-inverse">
       <div class="navbar-inner">
         <a class="brand" href='{% url "group" %}'><b>IntroKick</b></a>
+        {% block paypal-nav %}
         <ul class="nav pull-left">
             <li><a href=''>{{ current_user }} ({% if email %}{% ifequal email 'Enter your email (no spam, ever)' %}{{ db_email }}{% else %}{{ email }}{% endifequal %}{% endif %}{% ifequal email '' %}{{ db_email }}{% endifequal %})</a></li>
         </ul>
+        {% endblock paypal-nav %}
         <ul class="nav pull-right">
             <li class="dropdown">
                 <a class="dropdown-toggle" id="MyGroups" role="button" data-toggle="dropdown" data-target="#" href="#">My Groups<b class="caret"></b></a>

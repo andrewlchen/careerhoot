@@ -1743,7 +1743,7 @@ def flip_first_entitlements(request, pdt_obj):
 	redirected - grab CUSTOM field from PDT table, then lookup on User table
 	'''
 
-	if pdt_obj.st == 'Completed': 
+	if pdt_obj.st == 'SUCCESS': 
 
 		current_user = UserProfile.objects.get(user=User.objects.get(username=pdt_obj.custom))
 		

@@ -349,6 +349,17 @@ def confirm_subscription(request, userprofile):
 	return is_subscriber
 
 
+def reset_subs_expiry(request, userprofile):
+
+userprofile.subs_expiry: 
+
+			current_user.subs_expiry = timezone.now() + relativedelta(months=1)
+			current_user.save()
+
+		request.session['onload_modal'] = 'paid'
+
+
+
 
 def save_attributes(request, attributes):
 
@@ -420,6 +431,7 @@ def save_attributes(request, attributes):
 		request.session['subs_expiry'] = userprofile.subs_expiry
 	else: 
 		# If user logged in with "GET" request to join a group, process that request. 
+		reset_subs_expiry(request, userprofile)
 		login_get_user_gid_notification(request, user)
 
 	request.session['first_name'] = first_name

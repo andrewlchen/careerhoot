@@ -10,13 +10,13 @@ ALLOWED_HOSTS = ["introkick.com", "www.introkick.com"]
 # else:
 #     DEBUG = False
 
-DEBUG = False
+DEBUG = True
 
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
-    ('Andrew L. Chen', 'andrew@careerhoot.com'),
+    # ('Andrew L. Chen', 'andrew@careerhoot.com'),
 )
 
 MANAGERS = ADMINS

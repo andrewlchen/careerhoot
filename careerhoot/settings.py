@@ -10,7 +10,7 @@ ALLOWED_HOSTS = ["introkick.com", "www.introkick.com"]
 # else:
 #     DEBUG = False
 
-# DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = DEBUG
 

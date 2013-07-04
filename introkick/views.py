@@ -1811,7 +1811,7 @@ def home(request):
 	# Create display variables from session cookies 
 	request.session['path'] = request.path
 	
-	current_user_grid = request.session['current_user_grid']
+	current_user_grid = request.session.get('current_user_grid', False)
 	current_user_companies = request.session.get('current_user_companies', False)
 	current_user_industries = request.session.get('current_user_industries', False)
 

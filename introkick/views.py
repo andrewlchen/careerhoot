@@ -1817,18 +1817,14 @@ def home(request):
 
 	# grid_list_range = request.session['grid_list_range']
 	show_this_group = request.session.get('show_this_group', '%s %s\'s 1st degree connections' % (first_name, last_name))
-	all_groups = request.session['all_groups']
+	all_groups = request.session.get('all_groups', False)
 	control_group = all_groups.get(name='%s %s\'s 1st degree connections' % (current_user.first_name, current_user.last_name))
-	group_pk = request.session['group_pk']
-	sort_filter = request.session['sort_filter']
+	group_pk = request.session.get('group_pk', False)
+	sort_filter = request.session.get('sort_filter', False)
 	invite_others = request.session.get('invite_others', InviteOthers(request.POST))
 
 	# only show the viral email invite form if you are viewing a group that's not your default group 
-	try: 
-		invite_others_to_group = request.session['invite_others_to_group']
-	except KeyError: 
-		invite_others_to_group = InviteOthersToGroup(request.POST)
-
+	invite_others_to_group = request.session.get('invite_others_to_group', InviteOthersToGroup(request.POST))
 
 	group_form = request.session.get('group_form', GroupUpdate())
 

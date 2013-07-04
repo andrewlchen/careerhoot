@@ -1777,8 +1777,6 @@ def flip_first_entitlements(request, pdt_obj):
 		request.session['onload_modal'] = 'paid'
 		onload_modal = request.session['onload_modal']
 
-		assert False
-
 		return subs_expiry, onload_modal
 
 
@@ -1876,6 +1874,9 @@ def home(request):
 	# Turn on entitlements if you've paid 
 	if pdt_obj: 
 		subs_expiry, onload_modal = flip_first_entitlements(request, pdt_obj)
+
+		assert False
+
 		# If you're coming from PayPal, then show payment confirmation page 
 		return render_to_response('introkick/paypal.html', 
 			{'current_user' : "Connections for %s %s" % (first_name, last_name), 

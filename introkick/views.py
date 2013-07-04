@@ -349,14 +349,14 @@ def confirm_subscription(request, userprofile):
 	return is_subscriber
 
 
-def reset_subs_expiry(request, userprofile):
+# def reset_subs_expiry(request, userprofile):
 
-	userprofile.subs_expiry: 
+# 	userprofile.subs_expiry: 
 
-	current_user.subs_expiry = timezone.now() + relativedelta(months=1)
-	current_user.save()
+# 	current_user.subs_expiry = timezone.now() + relativedelta(months=1)
+# 	current_user.save()
 
-	request.session['onload_modal'] = 'paid'
+# 	request.session['onload_modal'] = 'paid'
 
 
 

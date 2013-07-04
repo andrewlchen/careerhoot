@@ -1775,8 +1775,6 @@ def flip_first_entitlements(request, pdt_obj):
 
 		request.session['onload_modal'] = 'paid'
 
-		assert False
-
 		return subs_expiry, request.session['onload_modal']
 
 

@@ -1852,7 +1852,7 @@ def home(request):
 		pass
 
 	# extract expiration date
-	subs_expiry = request.session.get('subs_expiry', '')
+	# subs_expiry = request.session.get('subs_expiry', '')
 
 	# implement group typeahead
 	typeahead_list = group_typeahead(request)

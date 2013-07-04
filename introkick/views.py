@@ -1766,14 +1766,17 @@ def flip_first_entitlements(request, pdt_obj):
 			current_user.paid = True
 		
 		if timezone.now() <= current_user.subs_expiry: 
-			subs_expiry = current_user.subs_expiry + relativedelta(months=1)
+			current_user.subs_expiry = current_user.subs_expiry + relativedelta(months=1)
 			current_user.save()
 		
 		else: 
-			subs_expiry = timezone.now() + relativedelta(months=1)
+			current_user.subs_expiry = timezone.now() + relativedelta(months=1)
 			current_user.save()
 
+		subs_expiry = current_user.subs_expiry
 		request.session['onload_modal'] = 'paid'
+
+		assert False
 
 		return subs_expiry, request.session['onload_modal']
 

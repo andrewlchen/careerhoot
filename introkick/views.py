@@ -1758,8 +1758,6 @@ def flip_first_entitlements(request, pdt_obj):
 	redirected - grab CUSTOM field from PDT table, then lookup on User table
 	'''
 
-	assert False
-
 	if pdt_obj.st == 'SUCCESS': 
 
 		current_user = UserProfile.objects.get(user=User.objects.get(username=pdt_obj.custom))
@@ -1768,16 +1766,18 @@ def flip_first_entitlements(request, pdt_obj):
 			current_user.paid = True
 		
 		if timezone.now() <= current_user.subs_expiry: 
-			current_user.subs_expiry = current_user.subs_expiry + relativedelta(months=1)
+			subs_expiry = current_user.subs_expiry + relativedelta(months=1)
 			current_user.save()
 		
 		else: 
-			current_user.subs_expiry = timezone.now() + relativedelta(months=1)
+			subs_expiry = timezone.now() + relativedelta(months=1)
 			current_user.save()
 
 		request.session['onload_modal'] = 'paid'
 
-		return current_user.subs_expiry, request.session['onload_modal']
+		assert False
+
+		return subs_expiry, request.session['onload_modal']
 
 
 

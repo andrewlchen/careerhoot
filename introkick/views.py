@@ -1705,27 +1705,26 @@ def subscribe_paypal(request, user_id):
 	'''
 
     # What you want the button to do.
-    paypal_dict = {
-	    "cmd": "_xclick-subscriptions",
-        "business": "archimedes-facilitator@careerhoot.com",
-	    "a3": "4.95",                      # monthly price 
-	    "p3": 1,                           # duration of each unit (depends on unit)
-	    "t3": "D",                         # duration unit ("M for Month")
-	    "src": "1",                        # make payments recur
-	    "sra": "1",                        # reattempt payment on payment error
-	    "no_note": "1",                    # remove extra notes (optional)
-	    "custom" : user_id,	# to ID the user when the IPN signal comes back
-        "item_name": "IntroKick: 1-DAY recurring subscription",
-        # "notify_url": "http://localhost:8000/introkick/paypal/ipn",
-        # "return_url": "http://localhost:8000/introkick/paypal/pdt",
-        "cancel_return": 'http://' + request.get_host() + '/home/group/',
+	paypal_dict = {
+		"cmd": "_xclick-subscriptions",
+		"business": "archimedes-facilitator@careerhoot.com",
+		"a3": "4.95",                      # monthly price 
+		"p3": 1,                           # duration of each unit (depends on unit)
+		"t3": "D",                         # duration unit ("M for Month")
+		"src": "1",                        # make payments recur
+		"sra": "1",                        # reattempt payment on payment error
+		"no_note": "1",                    # remove extra notes (optional)
+		"custom" : user_id,	# to ID the user when the IPN signal comes back
+		"item_name": "IntroKick: 1-DAY recurring subscription",
+		# "notify_url": "http://localhost:8000/introkick/paypal/ipn",
+		# "return_url": "http://localhost:8000/introkick/paypal/pdt",
+		"cancel_return": 'http://' + request.get_host() + '/home/group/',
+	}
 
-    }
-
-    # Create the instance.
-    checkout_form = PayPalPaymentsForm(initial=paypal_dict, button_type="subscribe")
-    return checkout_form
-    # request.session['checkout_form'] = checkout_form
+	# Create the instance.
+	checkout_form = PayPalPaymentsForm(initial=paypal_dict, button_type="subscribe")
+	return checkout_form
+	# request.session['checkout_form'] = checkout_form
 
 
 

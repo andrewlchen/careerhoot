@@ -1874,6 +1874,8 @@ def home(request):
 		except: 
 			subs_expiry, onload_modal = UserProfile.objects.get(user=current_user).subs_expiry, 'free'
 
+		assert False
+
 		# If you're coming from PayPal, then show payment confirmation page 
 		return render_to_response('introkick/paypal.html', 
 			{'current_user' : "Connections for %s %s" % (first_name, last_name), 

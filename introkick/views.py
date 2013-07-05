@@ -1766,18 +1766,14 @@ def flip_first_entitlements(request, pdt_obj):
 			current_user.paid = True
 		
 		if timezone.now() <= current_user.subs_expiry: 
-			current_user.subs_expiry = current_user.subs_expiry + relativedelta(months=1)
-			current_user.save()
-		
+			current_user.subs_expiry = current_user.subs_expiry + relativedelta(months=1)		
 		else: 
 			current_user.subs_expiry = timezone.now() + relativedelta(months=1)
-			current_user.save()
 
-		subs_expiry = current_user.subs_expiry
+		current_user.save()
 		request.session['onload_modal'] = 'paid'
-		onload_modal = request.session['onload_modal']
 
-		return subs_expiry, onload_modal
+		return current_user.subs_expiry, request.session['onload_modal']
 
 
 
@@ -1868,12 +1864,9 @@ def home(request):
 	# success_string = False
 
 	# Turn on entitlements if you've paid 
-	if pdt_obj != False: 
-		pdt_obj = pdt_obj
-		try: 
-			subs_expiry, onload_modal = flip_first_entitlements(request, pdt_obj)
-		except: 
-			subs_expiry, onload_modal = UserProfile.objects.get(user=current_user).subs_expiry, 'free'
+	if pdt_obj.st == 'SUCCESS':
+
+		subs_expiry, onload_modal = flip_first_entitlements(request, pdt_obj)
 
 		# If you're coming from PayPal, then show payment confirmation page 
 		return render_to_response('introkick/paypal.html', 

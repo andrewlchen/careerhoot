@@ -1817,7 +1817,7 @@ def home(request):
 
 	# grid_list_range = request.session['grid_list_range']
 	show_this_group = request.session.get('show_this_group', '%s %s\'s 1st degree connections' % (first_name, last_name))
-	all_groups = request.session.get('all_groups', False)
+	all_groups = request.session.get('all_groups', current_user.groups.all().order_by('name'))
 	control_group = all_groups.get(name='%s %s\'s 1st degree connections' % (current_user.first_name, current_user.last_name))
 	group_pk = request.session.get('group_pk', False)
 	sort_filter = request.session.get('sort_filter', False)

@@ -1872,7 +1872,7 @@ def home(request):
 		try: 
 			subs_expiry, onload_modal = flip_first_entitlements(request, pdt_obj)
 		except: 
-			subs_expiry, onload_modal = datetime.datetime(2013, 8, 10, 8, 38, 19, tzinfo=<UTC>), 'free'
+			subs_expiry, onload_modal = UserProfile.objects.get(user=current_user).subs_expiry, 'free'
 
 		# If you're coming from PayPal, then show payment confirmation page 
 		return render_to_response('introkick/paypal.html', 

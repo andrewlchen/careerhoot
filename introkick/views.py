@@ -1868,8 +1868,11 @@ def home(request):
 	# success_string = False
 
 	# Turn on entitlements if you've paid 
-	if pdt_obj: 
-		subs_expiry, onload_modal = flip_first_entitlements(request, pdt_obj)
+	if pdt_obj != False: 
+		try: 
+			subs_expiry, onload_modal = flip_first_entitlements(request, pdt_obj)
+		except: 
+			subs_expiry, onload_modal = 'subs_expiry', 'free'
 
 		# If you're coming from PayPal, then show payment confirmation page 
 		return render_to_response('introkick/paypal.html', 

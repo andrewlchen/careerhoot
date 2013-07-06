@@ -70,7 +70,8 @@ def index(request):
 	request.session['gid'] = request.GET.get('gid', False)
 
 	# captures URL and stores to session 
-	share_url = 'http://' + HttpRequest.get_host() + '/'
+	httpreq = HttpRequest()
+	share_url = 'http://' + httpreq.get_host() + '/'
 	request.session['share_url'] = share_url
 
 	# renders login page 
@@ -1353,7 +1354,8 @@ def request_access(request, requester=None):
 		requested_group_object = Group.objects.get(name=show_this_group)
 		requested_group_pk = requested_group_object.id
 
-		embed_url = 'http://' + HttpRequest.get_host() + '/grant/' + str(requested_group_pk) + '/' + str(requester_username) + '/'
+		httpreq = HttpRequest()
+		embed_url = 'http://' + httpreq.get_host() + '/grant/' + str(requested_group_pk) + '/' + str(requester_username) + '/'
 
 		# Pull out everyone whom user selected from request.POST, initialize recipient_emails variable to store their e-mails
 		group_members = request.POST.getlist('group_member')
@@ -1405,7 +1407,8 @@ def grant_access(request, group_pk=None, requester=None):
 			requester_mid.invite_count -= 1
 			requester_mid.save()
 
-			sign_in_url = 'http://' + HttpRequest.get_host() + '?gid=' + str(group_pk)
+			httpreq = HttpRequest()
+			sign_in_url = 'http://' + httpreq.get_host() + '?gid=' + str(group_pk)
 
 			# send confirmation email to grantee 
 			subject = 'Your request to join the group "%s" has been approved' % requested_group_object
@@ -1442,7 +1445,8 @@ def invite_to_group(request):
 
 		cd = invite_others_to_group.cleaned_data
 		user = request.user
-		sign_in_url = 'http://' + HttpRequest.get_host() + '?gid=' + str(target_group.id)
+		httpreq = HttpRequest()
+		sign_in_url = 'http://' + httpreq.get_host() + '?gid=' + str(target_group.id)
 
 		try: 
 			# see if that email is already associated with an existing user 
@@ -1549,7 +1553,8 @@ def invite(request):
 
 		else: 
 			# send email to invtee 
-			sign_in_url = 'http://' + HttpRequest.get_host() + '/'
+			httpreq = HttpRequest()
+			sign_in_url = 'http://' + httpreq.get_host() + '/'
 			subject = 'Invitation to IntroKick'
 			body = '%s %s (%s) has invited you to join IntroKick, a micro-network to make professional introductions easier! Click here (%s) to sign in with LinkedIn and start kicking off intros!' % (user.first_name, user.last_name, user.email, sign_in_url)
 			from_address = 'IntroKick Notifications <archimedes@careerhoot.com>'
@@ -1705,6 +1710,7 @@ def subscribe_paypal(request, user_id):
 	'''
 
     # What you want the button to do.
+    httpreq = HttpRequest()
 	paypal_dict = {
 		"cmd": "_xclick-subscriptions",
 		"business": "archimedes-facilitator@careerhoot.com",
@@ -1718,7 +1724,7 @@ def subscribe_paypal(request, user_id):
 		"item_name": "IntroKick: 1-DAY recurring subscription",
 		# "notify_url": "http://localhost:8000/introkick/paypal/ipn",
 		# "return_url": "http://localhost:8000/introkick/paypal/pdt",
-		"cancel_return": 'http://' + HttpRequest.get_host() + '/home/group/',
+		"cancel_return": 'http://' + httpreq.get_host() + '/home/group/',
 	}
 
 	# Create the instance.

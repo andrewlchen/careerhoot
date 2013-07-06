@@ -3,7 +3,7 @@
 import os
 import socket
 
-ALLOWED_HOSTS = [".introkick.com", "76.102.14.127"]
+ALLOWED_HOSTS = [".introkick.com", "localhost"]
 
 # if socket.gethostname() == 'anchen-mn1':
 #     DEBUG = True

@@ -3,20 +3,20 @@
 import os
 import socket
 
-ALLOWED_HOSTS = ["introkick.com", "www.introkick.com"]
+ALLOWED_HOSTS = [".introkick.com", '*']
 
 # if socket.gethostname() == 'anchen-mn1':
 #     DEBUG = True
 # else:
 #     DEBUG = False
 
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
-    # ('Andrew L. Chen', 'andrew@careerhoot.com'),
+    ('Andrew L. Chen', 'andrew@careerhoot.com'),
 )
 
 MANAGERS = ADMINS

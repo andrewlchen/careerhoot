@@ -21,9 +21,9 @@ urlpatterns = patterns('introkick.views',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^paypal/pdt', include('paypal.standard.pdt.urls')),
+    # url(r'^paypal/pdt', include('paypal.standard.pdt.urls')),
     url(r'^paypal/pdt/', include('paypal.standard.pdt.urls')),
-    url(r'^paypal/ipn', include('paypal.standard.ipn.urls')),
+    # url(r'^paypal/ipn', include('paypal.standard.ipn.urls')),
     url(r'^paypal/ipn/', include('paypal.standard.ipn.urls')),
     # url(r'^paypal/ipn/test_ipn', 'test_ipn'),
 

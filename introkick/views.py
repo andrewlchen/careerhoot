@@ -1864,7 +1864,7 @@ def home(request):
 	# success_string = False
 
 	# Turn on entitlements if you've paid 
-	if pdt_obj:
+	if pdt_obj != False:
 
 		# code.interact(local=locals())
 

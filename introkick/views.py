@@ -1855,7 +1855,7 @@ def home(request):
 
 	# PayPal checkout form
 	checkout_form = subscribe_paypal(request, current_user.username)
-	pdt_obj = request.session.get('pdt_obj', False)
+	pdt_obj = request.session.get('pdt_obj', '')
 	try: 
 		del request.session['pdt_obj']
 	except KeyError: 

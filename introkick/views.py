@@ -1855,7 +1855,7 @@ def home(request):
 
 	# PayPal checkout form
 	checkout_form = subscribe_paypal(request, current_user.username)
-	pdt_obj = request.session.get('pdt_obj', '')
+	pdt_obj = request.session.get('pdt_obj', False)
 	try: 
 		del request.session['pdt_obj']
 	except KeyError: 
@@ -1864,7 +1864,7 @@ def home(request):
 	# success_string = False
 
 	# Turn on entitlements if you've paid 
-	if pdt_obj != False:
+	if pdt_obj:
 
 		# code.interact(local=locals())
 

@@ -88,11 +88,19 @@ class UserProfile(models.Model):
 # 		return self.mid
 
 
-# def test_ipn(sender, **kwargs):
-#     ipn_obj = sender
-#     # Undertake some action depending upon `ipn_obj`.
-#     if ipn_obj.custom:
-#     	print ipn_obj.custom
-#         # Users.objects.update(paid=True)        
+def cancel_sub(sender, **kwargs):
+    ipn_obj = sender
+    affected_user = UserProfile.objects.get(user=User.objects.get(username=ipn_obj.custom))
+    if affected_user.paid == True: 
+    	affected_user.paid = False
+    affected_user.subs_expiry = timezone.now()
+    affected_user.save()
+subscription_cancel.connect(cancel_sub)
 
-# paypal_ipn_signal.connect(test_ipn)
+
+def recur_sub(sender, **kwargs):
+    ipn_obj = sender
+    affected_user = UserProfile.objects.get(user=User.objects.get(username=ipn_obj.custom))
+    affected_user.subs_expiry = affected_user.subs_expiry + relativedelta(months=1)
+    affected_user.save()
+payment_was_successful.connect(recur_sub)

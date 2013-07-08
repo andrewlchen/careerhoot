@@ -1,0 +1,22 @@
+{% extends 'introkick/nav.html' %}
+
+{% load introkick_filters %}
+
+{% block nav %}
+
+<h1 id="h1-title">IntroKick needs your support.</h1>
+
+<br/>
+<br/>
+
+<div id="separator-container" class="span8 offset2">
+    <h2>Unfortunately, your subscription or free trial to IntroKick has ended. To continue using IntroKick, please consider subscribing 
+
+    	.</h2>
+</div>
+
+<div id="subscribe-paypal">
+            {{ checkout_form }}
+        </div>
+
+{% endblock nav %}

@@ -349,15 +349,42 @@ def confirm_subscription(request, userprofile):
 	return is_subscriber
 
 
-# def reset_subs_expiry(request, userprofile):
 
-# 	userprofile.subs_expiry: 
+def check_subs_expiry(request, userprofile):
 
-# 	current_user.subs_expiry = timezone.now() + relativedelta(months=1)
-# 	current_user.save()
+	'''
+	Confirms whether user's subscription is still current and, if not, flips user
+	back to unpaid flag status. 
+	'''
 
-# 	request.session['onload_modal'] = 'paid'
+	try: 
+		ipn_obj = PayPalIPN.objects.filter(custom=userprofile.user.username).filter(txn_type='subscr_payment').order_by('-payment_date')[:1][0]
 
+		if userprofile.subs_expiry == ipn_obj.payment_date + relativedelta(months=1):
+			pass
+		else: 
+			userprofile.subs_expiry == ipn_obj.payment_date + relativedelta(months=1)
+			userprofile.save()
+	except: 
+		pass
+
+	# Flips user back to unpaid status if their subscription has expired 
+	if userprofile.subs_expiry < timezone.now(): 
+		if userprofile.paid == True: 
+			userprofile.paid = False 
+
+
+
+def upgrade(request, user_id): 
+
+	first_name = request.session['first_name']
+	checkout_form = subscribe_paypal(request, user_id)
+
+	return render_to_response('introkick/upgrade.html', 
+		{'first_name' : first_name,
+		'checkout_form' : checkout_form.sandbox(),
+		}, 
+		context_instance=RequestContext(request))
 
 
 
@@ -422,33 +449,25 @@ def save_attributes(request, attributes):
 		# Write to user's NUS if it's a first-time user. 
 		write_to_NUS(request, attributes) 
 
+	if userprofile.paid == True: 
+		# If user logged in with "GET" request to join a group, process that request. 
+		check_subs_expiry(request, userprofile)
+		login_get_user_gid_notification(request, user)
+
 	if userprofile.paid == False: 
 		# If user logged in with "GET" request to join a group, process that request. 
 		login_get_user_gid_notification(request, user)
 		request.session['onload_modal'] = 'free'
 		request.session['show_popup'] = 'show'
-		request.session['days_elapsed'] = 14 - (userprofile.subs_expiry - timezone.now()).days
 		request.session['subs_expiry'] = userprofile.subs_expiry
-	else: 
-		# If user logged in with "GET" request to join a group, process that request. 
-		# reset_subs_expiry(request, userprofile)
-		login_get_user_gid_notification(request, user)
+		request.session['days_elapsed'] = 14 - (userprofile.subs_expiry - timezone.now()).days
 
 	request.session['first_name'] = first_name
+
+	if (userprofile.subs_expiry - timezone.now()) <= 0: 
+		upgrade(request, user.username)
+
 	return is_subscriber
-
-
-
-def upgrade(request, user_id): 
-
-	first_name = request.session['first_name']
-	checkout_form = subscribe_paypal(request, user_id)
-
-	return render_to_response('introkick/upgrade.html', 
-		{'first_name' : first_name,
-		'checkout_form' : checkout_form.sandbox(),
-		}, 
-		context_instance=RequestContext(request))
 
 
 
@@ -1724,20 +1743,6 @@ def subscribe_paypal(request, user_id):
 	# Create the instance.
 	checkout_form = PayPalPaymentsForm(initial=paypal_dict, button_type="subscribe")
 	return checkout_form
-	# request.session['checkout_form'] = checkout_form
-
-
-
-# @receiver(paypal_ipn_signal)
-# def test_ipn(sender, **kwargs):
-#     ipn_obj = sender
-#     # Undertake some action depending upon `ipn_obj`.
-#     if ipn_obj.custom:
-#     	print ipn_obj.custom
-        # Users.objects.update(paid=True)        
-
-	# paypal_ipn_signal.connect(test_ipn)
-
 
 
 

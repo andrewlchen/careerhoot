@@ -372,6 +372,7 @@ def check_subs_expiry(request, userprofile):
 	if userprofile.subs_expiry < timezone.now(): 
 		if userprofile.paid == True: 
 			userprofile.paid = False 
+			userprofile.save()
 
 
 

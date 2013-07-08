@@ -464,7 +464,7 @@ def save_attributes(request, attributes):
 
 	request.session['first_name'] = first_name
 
-	if (userprofile.subs_expiry - timezone.now()) <= 0: 
+	if (userprofile.subs_expiry - timezone.now()) <= datetime.timedelta(0): 
 		upgrade(request, user.username)
 
 	return is_subscriber

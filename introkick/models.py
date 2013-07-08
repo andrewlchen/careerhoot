@@ -107,4 +107,4 @@ def recur_sub(sender, **kwargs):
 		affected_user.paid = True
 
 	affected_user.save()
-payment_was_successful.connect(recur_sub)
+payment_was_successful.connect(recur_sub) 

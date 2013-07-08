@@ -380,20 +380,21 @@ def check_subs_expiry(request, userprofile):
 	except: 
 		pass
 
-	# If both recur AND cancel IPN objects are present, then run this comparison 
-	if ipn_obj_recur and ipn_obj_cancel: 
-		if ipn_obj_recur.payment_date > ipn_obj_cancel.created_at: 
+	try: 
+		# If both recur AND cancel IPN objects are present, then run this comparison 
+		if ipn_obj_recur and ipn_obj_cancel: 
+			if ipn_obj_recur.payment_date > ipn_obj_cancel.created_at: 
+				reset_ipn_obj_recur_subs_expiry(request, userprofile, ipn_obj_recur)
+			else: 
+				reset_ipn_obj_cancel_subs_expiry(request, userprofile, ipn_obj_cancel)
+		# If only recurrence is present, then run reset_ipn_obj_recur_subs_expiry
+		if ipn_obj_recur and not ipn_obj_cancel: 
 			reset_ipn_obj_recur_subs_expiry(request, userprofile, ipn_obj_recur)
-		else: 
+		# If only cancel is present, then run reset_ipn_obj_cancel_subs_expiry
+		if ipn_obj_cancel and not ipn_obj_recur: 
 			reset_ipn_obj_cancel_subs_expiry(request, userprofile, ipn_obj_cancel)
-
-	# If only recurrence is present, then run reset_ipn_obj_recur_subs_expiry
-	if ipn_obj_recur and not ipn_obj_cancel: 
-		reset_ipn_obj_recur_subs_expiry(request, userprofile, ipn_obj_recur)
-
-	# If only cancel is present, then run reset_ipn_obj_cancel_subs_expiry
-	if ipn_obj_cancel and not ipn_obj_recur: 
-		reset_ipn_obj_cancel_subs_expiry(request, userprofile, ipn_obj_cancel)
+	except: 
+		pass
 
 	# Flip user back to unpaid status if their subscription has expired 
 	if userprofile.subs_expiry < timezone.now(): 
@@ -480,21 +481,20 @@ def save_attributes(request, attributes):
 	if userprofile.paid == True: 
 		# If user logged in with "GET" request to join a group, process that request. 
 		check_subs_expiry(request, userprofile)
-		login_get_user_gid_notification(request, user)
 
 	if userprofile.paid == False: 
 		# If user logged in with "GET" request to join a group, process that request. 
-		login_get_user_gid_notification(request, user)
 		request.session['onload_modal'] = 'free'
 		request.session['show_popup'] = 'show'
 		request.session['subs_expiry'] = userprofile.subs_expiry
 		request.session['days_elapsed'] = 14 - (userprofile.subs_expiry - timezone.now()).days
 
+	login_get_user_gid_notification(request, user)
 	request.session['first_name'] = first_name
 
 	# If user's sub or free trial has ended, direct them to dead-end upgrade page...
-	if (userprofile.subs_expiry - timezone.now()) <= datetime.timedelta(0): 
-		upgrade(request, user.username)
+	# if (userprofile.subs_expiry - timezone.now()) <= datetime.timedelta(0): 
+	# 	upgrade(request, user.username)
 
 	# ...else, return to authenticate_user view 
 	return is_subscriber

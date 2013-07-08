@@ -353,18 +353,27 @@ def confirm_subscription(request, userprofile):
 def check_subs_expiry(request, userprofile):
 
 	'''
-	Confirms whether user's subscription is still current and, if not, flips user
-	back to unpaid flag status. 
+	Confirms whether user's subscription is still current based on the user's last
+	payment or cancellation date, and if the sub is not current, flips user back to 
+	unpaid flag status. 
 	'''
 
 	try: 
-		ipn_obj = PayPalIPN.objects.filter(custom=userprofile.user.username).filter(txn_type='subscr_payment').order_by('-payment_date')[:1][0]
-
-		if userprofile.subs_expiry == ipn_obj.payment_date + relativedelta(months=1):
-			pass
+		ipn_obj_recur = PayPalIPN.objects.filter(custom=userprofile.user.username).filter(txn_type='subscr_payment').order_by('-payment_date')[:1][0]
+		ipn_obj_cancel = PayPalIPN.objects.filter(custom=userprofile.user.username).filter(txn_type='subscr_cancel').order_by('-created_at')[:1][0]
+		
+		if ipn_obj_recur.payment_date > ipn_obj_cancel.created_at: 
+			if userprofile.subs_expiry == ipn_obj_recur.payment_date + relativedelta(months=1):
+				pass
+			else: 
+				userprofile.subs_expiry = ipn_obj_recur.payment_date + relativedelta(months=1)
+				userprofile.save()
 		else: 
-			userprofile.subs_expiry == ipn_obj.payment_date + relativedelta(months=1)
-			userprofile.save()
+			if userprofile.subs_expiry == ipn_obj_cancel.created_at:
+				pass
+			else: 
+				userprofile.subs_expiry = ipn_obj_cancel.created_at
+				userprofile.save()
 	except: 
 		pass
 
@@ -465,9 +474,11 @@ def save_attributes(request, attributes):
 
 	request.session['first_name'] = first_name
 
+	# If user's sub or free trial has ended, direct them to dead-end upgrade page...
 	if (userprofile.subs_expiry - timezone.now()) <= datetime.timedelta(0): 
 		upgrade(request, user.username)
 
+	# ...else, return to authenticate_user view 
 	return is_subscriber
 
 

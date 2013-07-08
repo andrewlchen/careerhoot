@@ -387,9 +387,17 @@ def check_subs_expiry(request, userprofile):
 				reset_ipn_obj_recur_subs_expiry(request, userprofile, ipn_obj_recur)
 			else: 
 				reset_ipn_obj_cancel_subs_expiry(request, userprofile, ipn_obj_cancel)
+	except: 
+		pass
+
+	try: 
 		# If only recurrence is present, then run reset_ipn_obj_recur_subs_expiry
 		if ipn_obj_recur and not ipn_obj_cancel: 
 			reset_ipn_obj_recur_subs_expiry(request, userprofile, ipn_obj_recur)
+	except: 
+		pass
+
+	try: 
 		# If only cancel is present, then run reset_ipn_obj_cancel_subs_expiry
 		if ipn_obj_cancel and not ipn_obj_recur: 
 			reset_ipn_obj_cancel_subs_expiry(request, userprofile, ipn_obj_cancel)

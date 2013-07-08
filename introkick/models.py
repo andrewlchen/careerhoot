@@ -103,8 +103,8 @@ def recur_sub(sender, **kwargs):
     affected_user = UserProfile.objects.get(user=User.objects.get(username=ipn_obj.custom))
     affected_user.subs_expiry += relativedelta(months=1)
 
-	if affected_user.paid == False: 
+    if affected_user.paid == False: 
 		affected_user.paid = True
 
-    affected_user.save()
+	affected_user.save()
 payment_was_successful.connect(recur_sub)

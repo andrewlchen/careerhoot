@@ -334,11 +334,6 @@ def get_or_create_mid(mid_string):
 
 
 
-# def set_expiry(request, userprofile):
-# 	if userprofile.paid == True: 
-
-
-
 def confirm_subscription(request, userprofile):
 
 	if timezone.now() < userprofile.subs_expiry: 
@@ -348,6 +343,23 @@ def confirm_subscription(request, userprofile):
 
 	return is_subscriber
 
+
+def reset_ipn_obj_recur_subs_expiry(request, userprofile, ipn_obj_recur):
+
+	if userprofile.subs_expiry == ipn_obj_recur.payment_date + relativedelta(months=1):
+		pass
+	else: 
+		userprofile.subs_expiry = ipn_obj_recur.payment_date + relativedelta(months=1)
+		userprofile.save()
+
+
+def reset_ipn_obj_cancel_subs_expiry(request, userprofile, ipn_obj_cancel):
+
+	if userprofile.subs_expiry == ipn_obj_cancel.created_at:
+		pass
+	else: 
+		userprofile.subs_expiry = ipn_obj_cancel.created_at
+		userprofile.save()
 
 
 def check_subs_expiry(request, userprofile):
@@ -360,24 +372,30 @@ def check_subs_expiry(request, userprofile):
 
 	try: 
 		ipn_obj_recur = PayPalIPN.objects.filter(custom=userprofile.user.username).filter(txn_type='subscr_payment').order_by('-payment_date')[:1][0]
-		ipn_obj_cancel = PayPalIPN.objects.filter(custom=userprofile.user.username).filter(txn_type='subscr_cancel').order_by('-created_at')[:1][0]
-		
-		if ipn_obj_recur.payment_date > ipn_obj_cancel.created_at: 
-			if userprofile.subs_expiry == ipn_obj_recur.payment_date + relativedelta(months=1):
-				pass
-			else: 
-				userprofile.subs_expiry = ipn_obj_recur.payment_date + relativedelta(months=1)
-				userprofile.save()
-		else: 
-			if userprofile.subs_expiry == ipn_obj_cancel.created_at:
-				pass
-			else: 
-				userprofile.subs_expiry = ipn_obj_cancel.created_at
-				userprofile.save()
 	except: 
 		pass
 
-	# Flips user back to unpaid status if their subscription has expired 
+	try: 
+		ipn_obj_cancel = PayPalIPN.objects.filter(custom=userprofile.user.username).filter(txn_type='subscr_cancel').order_by('-created_at')[:1][0]
+	except: 
+		pass
+
+	# If both recur AND cancel IPN objects are present, then run this comparison 
+	if ipn_obj_recur and ipn_obj_cancel: 
+		if ipn_obj_recur.payment_date > ipn_obj_cancel.created_at: 
+			reset_ipn_obj_recur_subs_expiry(request, userprofile, ipn_obj_recur)
+		else: 
+			reset_ipn_obj_cancel_subs_expiry(request, userprofile, ipn_obj_cancel)
+
+	# If only recurrence is present, then run reset_ipn_obj_recur_subs_expiry
+	if ipn_obj_recur and not ipn_obj_cancel: 
+		reset_ipn_obj_recur_subs_expiry(request, userprofile, ipn_obj_recur)
+
+	# If only cancel is present, then run reset_ipn_obj_cancel_subs_expiry
+	if ipn_obj_cancel and not ipn_obj_recur: 
+		reset_ipn_obj_cancel_subs_expiry(request, userprofile, ipn_obj_cancel)
+
+	# Flip user back to unpaid status if their subscription has expired 
 	if userprofile.subs_expiry < timezone.now(): 
 		if userprofile.paid == True: 
 			userprofile.paid = False 
@@ -1761,18 +1779,7 @@ def subscribe_paypal(request, user_id):
 def flip_first_entitlements(request, pdt_obj):
 
 	'''
-	Turn on entitlements if you've paid 
-	WHAT IF PAID IS TRUE, BUT RECURRENCE HAS HAPPENED? NEED WAY TO PUSH OUT ANOTHER
-	MONTH
-
-	IF PAYMENT LAPSES, MAKE SURE TO FLIP PAID TO FALSE
-
-	DO I GET THE SAME SIGNAL BACK FOR RECURRING CHARGE? NEED TO ASSOCIATE BUYER ID 
-	WITH USERNAME
-
-	CHANGE flip entitlements view to use CUSTOM field of PDT object, not 
-	current_user - since user may bounce out of browser before being 
-	redirected - grab CUSTOM field from PDT table, then lookup on User table
+	Turn on entitlements if you've paid.
 	'''
 
 	if pdt_obj.st == 'SUCCESS': 
@@ -1783,7 +1790,7 @@ def flip_first_entitlements(request, pdt_obj):
 			current_user.paid = True
 		
 		if timezone.now() <= current_user.subs_expiry: 
-			current_user.subs_expiry = current_user.subs_expiry + relativedelta(months=1)		
+			current_user.subs_expiry += relativedelta(months=1)		
 		else: 
 			current_user.subs_expiry = timezone.now() + relativedelta(months=1)
 

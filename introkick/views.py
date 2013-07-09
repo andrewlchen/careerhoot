@@ -412,6 +412,18 @@ def check_subs_expiry(request, userprofile):
 
 
 
+def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
+
+	''' 
+	Generates a random 6 digit, uppercase string, used in function update_grid_to_DB(). 
+	If a grid member's mid is obscured as private, then this will allow a unique 6 digit 
+	string to be saved to the DB instead, preventing a situation of saving (and constantly
+	overwriting) a DB entry labeled "User ID unspecified."
+	'''
+	return ''.join(random.choice(chars) for x in range(size))
+
+
+
 def upgrade(request, user_id): 
 
 	first_name = request.session['first_name']
@@ -619,17 +631,6 @@ def prune_user_grid(grid_list):
 		j += 1
 
 	return grid_list
-
-
-def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
-
-	''' 
-	Generates a random 6 digit, uppercase string, used in function update_grid_to_DB(). 
-	If a grid member's mid is obscured as private, then this will allow a unique 6 digit 
-	string to be saved to the DB instead, preventing a situation of saving (and constantly
-	overwriting) a DB entry labeled "User ID unspecified."
-	'''
-	return ''.join(random.choice(chars) for x in range(size))
 
 
 def update_grid_to_DB(request):

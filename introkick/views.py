@@ -336,7 +336,11 @@ def get_or_create_mid(mid_string):
 
 def confirm_subscription(request, userprofile):
 
+	pdt_obj = request.session.get('pdt_obj', False)
+
 	if timezone.now() < userprofile.subs_expiry: 
+		is_subscriber = True 
+	elif pdt_obj: 
 		is_subscriber = True 
 	else: 
 		is_subscriber = False 
@@ -1794,10 +1798,13 @@ def flip_first_entitlements(request, pdt_obj):
 	Turn on entitlements if you've paid.
 	'''
 
-	if pdt_obj.st == 'SUCCESS': 
+	current_user = UserProfile.objects.get(user=User.objects.get(username=pdt_obj.custom))
 
-		current_user = UserProfile.objects.get(user=User.objects.get(username=pdt_obj.custom))
-		
+	if current_user.subs_expiry >= timezone.now() + relativedelta(days=27):
+		request.session['onload_modal'] = 'paid'
+		return current_user.subs_expiry, request.session['onload_modal']
+
+	elif pdt_obj.st == 'SUCCESS': 		
 		if current_user.paid == False: 
 			current_user.paid = True
 		
@@ -1810,15 +1817,6 @@ def flip_first_entitlements(request, pdt_obj):
 		request.session['onload_modal'] = 'paid'
 
 		return current_user.subs_expiry, request.session['onload_modal']
-
-
-
-def cancel_entitlements(request, current_user):
-
-	if current_user.get_profile().paid == True: 
-		current_user.get_profile().paid = False
-		current_user.get_profile().subs_expiry = timezone.now()
-		current_user.get_profile().save()
 
 
 

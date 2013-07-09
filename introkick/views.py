@@ -415,7 +415,7 @@ def check_subs_expiry(request, userprofile):
 def upgrade(request, user_id): 
 
 	first_name = request.session['first_name']
-	checkout_form = subscribe_paypal(request, user_id)
+	checkout_form = subscribe_paypal(request, user_id, 1)
 
 	return render_to_response('introkick/upgrade.html', 
 		{'first_name' : first_name,
@@ -535,7 +535,9 @@ def authenticate_user(request):
 	
 	if not is_subscriber: 
 		return HttpResponseRedirect(reverse('upgrade', 
-			kwargs={'user_id' : attributes['user_id'], }
+			kwargs={
+				'user_id' : attributes['user_id'], 
+			}
 		))
 	else: 
 
@@ -1755,7 +1757,7 @@ def ajax(request):
 
 
 
-def subscribe_paypal(request, user_id):
+def subscribe_paypal(request, user_id, invoice=None):
 
 	'''
 	/usr/local/lib/python2.7/dist-packages/paypal
@@ -1772,6 +1774,7 @@ def subscribe_paypal(request, user_id):
 		"sra": "1",                        # reattempt payment on payment error
 		"no_note": "1",                    # remove extra notes (optional)
 		"custom" : user_id,	# to ID the user when the IPN signal comes back
+		"invoice" : invoice, # flag 1 if purchase came from lockout screen, else came from within app
 		"item_name": "IntroKick: 1-DAY recurring subscription",
 		# "notify_url": "http://localhost:8000/introkick/paypal/ipn",
 		# "return_url": "http://localhost:8000/introkick/paypal/pdt",

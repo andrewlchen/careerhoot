@@ -1807,9 +1807,9 @@ def flip_first_entitlements(request, pdt_obj):
 	elif pdt_obj.st == 'SUCCESS': 		
 		if current_user.paid == False: 
 			current_user.paid = True
-		
+
 		if timezone.now() <= current_user.subs_expiry: 
-			current_user.subs_expiry += relativedelta(months=1)		
+			current_user.subs_expiry += relativedelta(months=1)
 		else: 
 			current_user.subs_expiry = timezone.now() + relativedelta(months=1)
 

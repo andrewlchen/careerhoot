@@ -415,7 +415,7 @@ def check_subs_expiry(request, userprofile):
 def upgrade(request, user_id): 
 
 	first_name = request.session['first_name']
-	checkout_form = subscribe_paypal(request, user_id, 1)
+	checkout_form = subscribe_paypal(request, user_id, id_generator())
 
 	return render_to_response('introkick/upgrade.html', 
 		{'first_name' : first_name,

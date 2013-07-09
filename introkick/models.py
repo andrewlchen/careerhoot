@@ -102,9 +102,9 @@ def recur_sub(sender, **kwargs):
     ipn_obj = sender
     affected_user = UserProfile.objects.get(user=User.objects.get(username=ipn_obj.custom))
     if affected_user.subs_expiry >= timezone.now() + relativedelta(days=27):
-		pass
-	else: 
-		affected_user.subs_expiry += relativedelta(months=1)
+    	pass
+    else: 
+    	affected_user.subs_expiry += relativedelta(months=1)
     if affected_user.paid == False: 
     	affected_user.paid = True
     affected_user.save()

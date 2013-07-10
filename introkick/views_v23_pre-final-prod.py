@@ -435,7 +435,7 @@ def upgrade(request, user_id):
 
 	return render_to_response('introkick/upgrade.html', 
 		{'first_name' : first_name,
-		'checkout_form' : checkout_form.render(),
+		'checkout_form' : checkout_form.sandbox(),
 		}, 
 		context_instance=RequestContext(request))
 
@@ -1321,7 +1321,7 @@ def add(request):
 		'invite_others' : invite_others,
 		'typeahead_list' : typeahead_list,
 		'onload_modal' : onload_modal,
-		'checkout_form' : checkout_form.render(),
+		'checkout_form' : checkout_form.sandbox(),
 		}, 
 		context_instance=RequestContext(request))
 
@@ -1771,10 +1771,10 @@ def subscribe_paypal(request, user_id, invoice=None):
     # What you want the button to do.
 	paypal_dict = {
 		"cmd": "_xclick-subscriptions",
-		"business": "archimedes@careerhoot.com",
+		"business": "archimedes-facilitator@careerhoot.com",
 		"a3": "4.95",                      # monthly price 
 		"p3": 1,                           # duration of each unit (depends on unit)
-		"t3": "M",                         # duration unit ("M for Month")
+		"t3": "D",                         # duration unit ("M for Month")
 		"src": "1",                        # make payments recur
 		"sra": "1",                        # reattempt payment on payment error
 		"no_note": "1",                    # remove extra notes (optional)
@@ -1948,7 +1948,7 @@ def home(request):
 			'onload_modal' : onload_modal,
 			'show_popup' : show_popup,
 			'typeahead_list' : typeahead_list,
-			'checkout_form' : checkout_form.render(),
+			'checkout_form' : checkout_form.sandbox(),
 			'pdt_obj' : pdt_obj, 
 			# 'success_string' : success_string, 
 			}, 

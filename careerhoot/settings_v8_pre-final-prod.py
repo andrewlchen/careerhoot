@@ -203,9 +203,9 @@ EMAIL_PORT = 587 # 465 for SSL, 25 for localhost default, 587 for TLS
 EMAIL_SUBJECT_PREFIX = '[Django Alert]'
 SEND_BROKEN_LINK_EMAILS = True
 
-PAYPAL_RECEIVER_EMAIL = "archimedes@careerhoot.com"
+PAYPAL_RECEIVER_EMAIL = "archimedes-facilitator@careerhoot.com"
 
-PAYPAL_IDENTITY_TOKEN = 'wJA_2Y0umDNUkegWPalnLGHRz6pmt8ubo6tDG5VabPBST7E8haJZoCztwp4'
+PAYPAL_IDENTITY_TOKEN = 'UpqzZPeNTNePSt6BtbV4QqaygQDcWK4c9QXUtTKjYKhBf9FK0CD4SIqV8_8'
 
 
 # EMAIL_USE_TLS = False

@@ -1780,7 +1780,7 @@ def subscribe_paypal(request, user_id, invoice=None):
 		"no_note": "1",                    # remove extra notes (optional)
 		"custom" : user_id,	# to ID the user when the IPN signal comes back
 		"invoice" : invoice, # flag 1 if purchase came from lockout screen, else came from within app
-		"item_name": "IntroKick: 1-DAY recurring subscription",
+		"item_name": "IntroKick: 1-month recurring subscription",
 		# "notify_url": "http://localhost:8000/introkick/paypal/ipn",
 		# "return_url": "http://localhost:8000/introkick/paypal/pdt",
 		"cancel_return": 'http://www.introkick.com/home/group/',
